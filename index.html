@@ -1,0 +1,1164 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>칠순 미야자키 작전판</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@400;700;800&family=Outfit:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* 레이아웃: 리본 마스트헤드 → 한 줄 요약 → KPI → 섹션 카드 세로 흐름. 미야자키 = 틸, 후쿠오카 = 코랄 */
+:root{
+  --ground:#faf8f4; --paper:#ffffff; --ink:#1f2b2f; --muted:#66747a; --line:#e8e2d7; --soft:#f4f0e9; --dot:#ebe5da;
+  --accent:#0f8a8c; --accent-soft:#ddf1ef;
+  --coral:#ff7a59; --coral-ink:#c4502f; --coral-soft:#ffe9e2;
+  --sun:#ffcf5c; --sun-soft:#fff3d6;
+  --best:#2a8a5c; --best-bg:#e1f3e9;
+  --ok:#2f7fa6; --ok-bg:#e2f0f6;
+  --busy:#b5761a; --busy-bg:#fdf0d7;
+  --avoid:#d4483f; --avoid-bg:#fde6e3;
+  --ribbon:linear-gradient(135deg,#ffe39a 0%,#ffd06a 55%,#ffbf73 100%);
+  --ribbon-ink:#2a2418; --ribbon-sub:#7a5a1c;
+  --accent-grad:linear-gradient(120deg,#0d7f81 0%,#12999a 55%,#23ae9f 100%);
+  --on-grad:#ffffff; --on-grad-em:#ffe08a;
+  --shadow:0 1px 2px rgba(40,50,45,.06),0 8px 24px -6px rgba(40,50,45,.12);
+  --display:"Jua","Nanum Gothic","Malgun Gothic",sans-serif;
+  --body:"Nanum Gothic","Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif;
+  --num:"Outfit","Nanum Gothic",sans-serif;
+  --code:"IBM Plex Mono",Consolas,ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0f1719; --paper:#172226; --ink:#e5eef0; --muted:#98a9ae; --line:#26363b; --soft:#1d2b2f; --dot:#1b2629;
+    --accent:#4fd1c5; --accent-soft:#15393a;
+    --coral:#ff8f73; --coral-ink:#ffa58d; --coral-soft:#3d2420;
+    --sun:#ffd666; --sun-soft:#3a3118;
+    --best:#5fd49b; --best-bg:#163a2a;
+    --ok:#7cc4e0; --ok-bg:#16323d;
+    --busy:#f0b54a; --busy-bg:#3b2e13;
+    --avoid:#ff7b72; --avoid-bg:#42201f;
+    --ribbon:linear-gradient(135deg,#f7d77a 0%,#f2bf55 60%,#eeaa5e 100%);
+    --accent-grad:linear-gradient(120deg,#138486 0%,#179c96 60%,#22ad99 100%);
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -8px rgba(0,0,0,.45);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0f1719; --paper:#172226; --ink:#e5eef0; --muted:#98a9ae; --line:#26363b; --soft:#1d2b2f; --dot:#1b2629;
+  --accent:#4fd1c5; --accent-soft:#15393a;
+  --coral:#ff8f73; --coral-ink:#ffa58d; --coral-soft:#3d2420;
+  --sun:#ffd666; --sun-soft:#3a3118;
+  --best:#5fd49b; --best-bg:#163a2a;
+  --ok:#7cc4e0; --ok-bg:#16323d;
+  --busy:#f0b54a; --busy-bg:#3b2e13;
+  --avoid:#ff7b72; --avoid-bg:#42201f;
+  --ribbon:linear-gradient(135deg,#f7d77a 0%,#f2bf55 60%,#eeaa5e 100%);
+  --accent-grad:linear-gradient(120deg,#138486 0%,#179c96 60%,#22ad99 100%);
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -8px rgba(0,0,0,.45);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background-color:var(--ground);background-image:radial-gradient(var(--dot) 1.2px,transparent 1.2px);background-size:26px 26px;color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.7;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 56px}
+.wrap{max-width:1000px;margin:0 auto;display:grid;gap:40px}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance}
+h2{font-size:clamp(22px,3.4vw,28px);line-height:1.25;color:var(--accent)}
+h3{font-size:18px;line-height:1.3}
+b,strong{font-weight:800}
+a{color:var(--accent);font-weight:700;text-underline-offset:3px}
+a:focus-visible,summary:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+img{max-width:100%}
+.num{font-family:var(--num);font-variant-numeric:tabular-nums}
+.eyebrow{font-size:12.5px;font-weight:800;letter-spacing:.04em;color:var(--muted)}
+section{display:grid;gap:16px}
+.sec-head{display:grid;gap:4px}
+.sec-head h2::before{content:"✦ ";color:var(--coral);font-size:.8em;vertical-align:.08em}
+.sec-head p{margin:0;color:var(--muted);max-width:70ch;text-wrap:pretty}
+.fine{font-size:12.5px;color:var(--muted);margin:0}
+
+/* 마스트헤드 */
+.masthead{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px 22px;align-items:center}
+.ribbon{position:relative;background:var(--ribbon);color:var(--ribbon-ink);border-radius:999px;padding:16px 32px;box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.6)}
+.ribbon h1{font-size:clamp(26px,4.4vw,42px);line-height:1.2;overflow-wrap:anywhere}
+.ribbon .eyebrow{color:var(--ribbon-sub)}
+.spark{position:absolute;color:var(--accent);font-size:22px;line-height:1;pointer-events:none}
+.spark.s1{left:-6px;top:-12px}.spark.s2{right:18px;top:-16px;color:var(--coral);font-size:26px}.spark.s3{right:-8px;bottom:-6px;font-size:16px}
+.side-col{display:grid;justify-items:center;gap:6px}
+.mascot{width:118px;height:118px;filter:drop-shadow(0 8px 14px rgba(200,140,40,.25))}
+@media (prefers-reduced-motion:no-preference){.mascot{animation:bob 3.2s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-5px) rotate(-3deg)}}}
+.mood{display:inline-flex;border-radius:999px;padding:4px 16px;font:18px var(--display);white-space:nowrap;box-shadow:var(--shadow);background:var(--coral-soft);color:var(--coral-ink)}
+.hero-pics{grid-column:1/-1;display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px}
+.hero-pics figure{margin:0;position:relative;border-radius:22px;overflow:hidden;box-shadow:var(--shadow);aspect-ratio:16/10;max-width:100%;background:var(--soft)}
+.hero-pics figure:first-child{grid-row:span 2;aspect-ratio:auto}
+.hero-pics img{width:100%;height:100%;object-fit:cover;display:block}
+.hero-pics figcaption,.ph figcaption,.pics figcaption{position:absolute;left:8px;bottom:8px;background:rgba(20,28,30,.72);color:#fff;font-size:11.5px;font-weight:700;padding:2px 10px;border-radius:999px;line-height:1.6}
+@media (max-width:640px){.hero-pics{grid-template-columns:1fr 1fr}.hero-pics figure:first-child{grid-column:1/-1;grid-row:auto;aspect-ratio:16/9}}
+.lede-card{grid-column:1/-1;background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:14px 20px;box-shadow:var(--shadow);display:grid;gap:10px}
+.lede-card p{margin:0;font-size:15px}
+.badge-row{display:flex;flex-wrap:wrap;gap:8px}
+.badge{font-size:12.5px;padding:4px 11px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-weight:800}
+.badge.co{background:var(--coral-soft);color:var(--coral-ink)}
+.badge.sun{background:var(--sun-soft);color:var(--busy)}
+.oneline{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:center;background:var(--accent-grad);color:var(--on-grad);border-radius:26px;padding:14px 22px;box-shadow:var(--shadow)}
+.oneline .bubble{background:#fff;color:#0d7375;font:19px var(--display);border-radius:999px;padding:6px 16px;white-space:nowrap}
+.oneline p{margin:0;font:18px/1.55 var(--display)}
+.oneline em{font-style:normal;color:var(--on-grad-em)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.kpi{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:14px 16px;display:grid;gap:2px;box-shadow:var(--shadow);align-content:start}
+.kpi .label{font-size:13px;font-weight:800;color:var(--muted)}
+.kpi .value{font:600 26px/1.2 var(--num);letter-spacing:-.01em}
+.kpi .value.k{font:24px/1.25 var(--display)}
+.kpi .sub{font-size:12px;color:var(--muted);line-height:1.45}
+.kpi.teal .value{color:var(--accent)}.kpi.coral .value{color:var(--coral-ink)}.kpi.warn .value{color:var(--busy)}
+details.guide{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:0 18px;box-shadow:var(--shadow)}
+details.guide summary{cursor:pointer;padding:12px 0;font:18px var(--display);list-style:none;display:flex;justify-content:space-between;gap:10px}
+details.guide summary::-webkit-details-marker{display:none}
+details.guide summary::after{content:"+";color:var(--muted);font-family:var(--num)}
+details.guide[open] summary::after{content:"−"}
+.guide-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;padding:0 0 16px}
+.guide-item{background:var(--soft);border-radius:16px;padding:10px 14px;font-size:13.5px;line-height:1.55}
+.guide-item b{display:block;font:16px var(--display);font-weight:400;color:var(--accent);margin-bottom:2px}
+
+/* 공통 */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:18px;display:grid;gap:12px;align-content:start;box-shadow:var(--shadow);min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:12px}
+.pc{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:13.5px}
+.pc li{position:relative;padding-left:22px;line-height:1.5}
+.pc li::before{position:absolute;left:0;top:0;width:16px;text-align:center;font-weight:800;font-family:var(--num)}
+.pc li.pro::before{content:"+";color:var(--best)}
+.pc li.con::before{content:"−";color:var(--avoid)}
+.pc li.ask::before{content:"?";color:var(--busy)}
+.pc li.dot::before{content:"·";color:var(--accent)}
+.tag{font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;background:var(--soft);color:var(--muted);white-space:nowrap;display:inline-block;line-height:1.5}
+.tag.ok{background:var(--best-bg);color:var(--best)}.tag.warn{background:var(--busy-bg);color:var(--busy)}.tag.no{background:var(--avoid-bg);color:var(--avoid)}.tag.teal{background:var(--accent-soft);color:var(--accent)}.tag.co{background:var(--coral-soft);color:var(--coral-ink)}
+.callout{background:var(--busy-bg);border:1px solid color-mix(in srgb,var(--busy) 25%,transparent);border-radius:18px;padding:13px 16px;font-size:13.5px;line-height:1.6}
+.callout b{color:var(--busy)}
+.callout.green{background:var(--best-bg);border-color:color-mix(in srgb,var(--best) 25%,transparent)}.callout.green b{color:var(--best)}
+.callout.teal{background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 25%,transparent)}.callout.teal b{color:var(--accent)}
+.ph{margin:0;position:relative;border-radius:18px;overflow:hidden;aspect-ratio:16/9;max-width:100%;background:var(--soft)}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.pics{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:8px}
+.pics figure{margin:0;position:relative;border-radius:16px;overflow:hidden;aspect-ratio:4/3;max-width:100%;background:var(--soft)}
+.pics img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* 크루 */
+.crew{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:12px}
+.fam{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:14px 16px;box-shadow:var(--shadow);display:grid;gap:8px;align-content:start}
+.fam h3{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.fam h3 span{font:600 12px var(--num);color:var(--muted)}
+.mem{display:grid;grid-template-columns:38px 1fr;gap:10px;align-items:center}
+.av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font:17px var(--display);background:var(--accent-soft);color:var(--accent)}
+.av.p{background:var(--sun-soft);color:var(--busy)}.av.k{background:var(--coral-soft);color:var(--coral-ink)}
+.mem b{font-size:14px;display:block;line-height:1.3}
+.mem small{display:block;color:var(--muted);font-size:12px;line-height:1.4}
+.fam.star{border:2px solid var(--sun)}
+
+/* 항공권 */
+.tickets{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:14px}
+.ticket{background:var(--paper);border:1px solid var(--line);border-radius:22px;display:grid;grid-template-columns:1fr auto;overflow:hidden;box-shadow:var(--shadow)}
+.ticket .main{padding:16px 18px;display:grid;gap:4px;min-width:0}
+.ticket .leg{display:flex;align-items:center;gap:10px;font:600 26px/1.1 var(--num)}
+.ticket .leg i{font-style:normal;color:var(--muted);font-size:18px}
+.ticket .when{font-size:13px;color:var(--muted)}
+.ticket .note{font-size:12.5px;color:var(--muted);line-height:1.5}
+.ticket .stub{border-left:2px dashed var(--line);padding:14px;display:grid;align-content:center;justify-items:center;gap:2px;min-width:92px;background:var(--sun-soft)}
+.ticket .stub b{font:20px var(--display);color:var(--accent)}
+.ticket .stub span{font-size:11.5px;color:var(--muted);text-align:center}
+.ticket.dom .stub b{color:var(--coral-ink)}
+.strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.sd{border-radius:18px;padding:10px 12px;display:grid;gap:2px;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow);position:relative;overflow:hidden}
+.sd::before{content:"";position:absolute;inset:0 0 auto;height:6px;background:var(--accent)}
+.sd.fk::before{background:var(--coral)}
+.sd.mix::before{background:linear-gradient(90deg,var(--accent) 0 60%,var(--coral) 60%)}
+.sd .d{font:600 13px var(--num);color:var(--muted);margin-top:4px}
+.sd b{font:17px/1.3 var(--display);font-weight:400}
+.sd small{font-size:12px;color:var(--muted);line-height:1.4}
+@media (max-width:720px){.strip{grid-template-columns:repeat(2,minmax(0,1fr))}.sd:last-child{grid-column:1/-1}}
+
+/* 선택 버튼 */
+.pick-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pick-bar .lb{font-size:13px;font-weight:800;color:var(--muted);margin-right:4px}
+.seg-btn{font:inherit;font-size:14px;font-weight:800;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer;box-shadow:var(--shadow)}
+.seg-btn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.seg-btn:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.seg-btn .r{font:600 11px var(--num);margin-left:6px;padding:1px 7px;border-radius:999px;background:var(--sun);color:var(--ribbon-ink)}
+.panel{display:grid;gap:14px}
+.stay-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,300px);gap:16px;align-items:start}
+@media (max-width:720px){.stay-top{grid-template-columns:1fr}}
+.stay-head{display:grid;gap:8px;align-content:start}
+.stay-head .price b{font:600 28px/1.1 var(--num);color:var(--accent)}
+.stay-head .price span{font-size:12px;color:var(--muted);margin-left:8px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:8px}
+.facts div{background:var(--soft);border-radius:16px;padding:9px 12px;display:grid;gap:1px}
+.facts b{font:16px/1.3 var(--display);font-weight:400}
+.facts span{font-size:12px;color:var(--muted);line-height:1.4}
+.verdict{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;background:var(--sun-soft);border-radius:22px;padding:14px 18px;border:1px dashed color-mix(in srgb,var(--busy) 40%,transparent)}
+.verdict .medal{width:44px;height:44px;border-radius:50%;background:var(--sun);display:grid;place-items:center;font:20px var(--display);color:var(--ribbon-ink)}
+.verdict p{margin:0;font-size:14px}
+.verdict b.t{font:19px var(--display);font-weight:400;display:block;margin-bottom:2px}
+
+/* 표 */
+.tbl-wrap{overflow-x:auto;background:var(--paper);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:13.5px}
+th,td{padding:10px 14px;text-align:left;border-top:1px solid var(--line);vertical-align:top}
+thead th{border-top:0;font-size:12px;color:var(--muted);font-weight:800;background:var(--sun-soft);white-space:nowrap}
+td .sub{display:block;font-size:12px;color:var(--muted)}
+tr.pick td{background:color-mix(in srgb,var(--accent-soft) 55%,transparent)}
+/* 휴무 달력 */
+table.hol{min-width:720px}
+.hol th.d,.hol td.c{text-align:center;width:66px;padding:8px 4px}
+.hol th.d small{display:block;font-weight:600;font-family:var(--num)}
+.hol tr.city td{background:var(--soft);font:15px var(--display);color:var(--accent);padding:6px 14px}
+.hol tr.city.fk td{color:var(--coral-ink)}
+.mk{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;font:800 14px var(--num)}
+.mk.o{background:var(--best-bg);color:var(--best)}
+.mk.x{background:var(--avoid-bg);color:var(--avoid)}
+.mk.q{background:var(--busy-bg);color:var(--busy)}
+.mk.n{color:var(--line);font-weight:600}
+.mk.go{box-shadow:0 0 0 2.5px var(--accent);position:relative}
+.mk.go::after{content:"★";position:absolute;top:-9px;right:-8px;font-size:12px;color:var(--coral)}
+.hol-legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13px;align-items:center}
+.hol-legend span{display:inline-flex;align-items:center;gap:6px}
+.hol-legend .mk{width:22px;height:22px;font-size:11px}
+
+/* 축제 */
+.fest{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:760px){.fest{grid-template-columns:1fr}}
+.fmap{width:100%;max-width:340px;height:auto;display:block;margin:0 auto}
+.fmap .river{fill:none;stroke:var(--ok);stroke-width:10;opacity:.35;stroke-linecap:round}
+.fmap .sea{fill:var(--accent-soft)}
+.fmap .parade{fill:none;stroke:var(--avoid);stroke-width:7;stroke-linecap:round}
+.fmap .parade2{fill:none;stroke:var(--avoid);stroke-width:4;stroke-dasharray:3 6;stroke-linecap:round;opacity:.7}
+.fmap .night{fill:none;stroke:var(--busy);stroke-width:7;stroke-linecap:round}
+.fmap .bypass{fill:none;stroke:var(--best);stroke-width:6;stroke-linecap:round}
+.fmap .n{fill:var(--paper);stroke:var(--avoid);stroke-width:3}
+.fmap .n.g{stroke:var(--best)}
+.fmap .n.h{fill:var(--sun);stroke:var(--busy)}
+.fmap text{fill:var(--ink);font-family:var(--body);font-size:12px;font-weight:800}
+.fmap text.m{fill:var(--muted);font-size:10.5px;font-weight:700}
+.fmap text.g{fill:var(--best)}
+.fmap text.r{fill:var(--avoid)}
+.fmap text.y{fill:var(--busy)}
+.fmap text.s{fill:var(--accent);font-family:var(--display);font-weight:400;font-size:15px}
+.tline{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.tline li{display:grid;grid-template-columns:110px minmax(0,1fr);gap:10px;font-size:13.5px;line-height:1.5;padding-bottom:8px;border-bottom:1px dashed var(--line)}
+.tline li:last-child{border-bottom:0;padding-bottom:0}
+.tline b.t{font:600 13px var(--num);color:var(--avoid)}
+.tline li.y b.t{color:var(--busy)}
+.tline li.g b.t{color:var(--best)}
+@media (max-width:480px){.tline li{grid-template-columns:1fr;gap:0}}
+
+/* 일정 */
+.legend-who{display:flex;flex-wrap:wrap;gap:8px 12px;font-size:13px;align-items:center}
+.days{display:grid;gap:14px;min-width:0}
+.day-card{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:16px 18px;display:grid;gap:12px;box-shadow:var(--shadow);border-top:6px solid var(--accent)}
+.day-card.fk{border-top-color:var(--coral)}
+.day-card .dh{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 12px}
+.day-card .dn{font:22px/1.2 var(--display)}
+.day-card .dd{font-size:13px;color:var(--muted)}
+.day-card .theme{font-size:13.5px;margin:0;color:var(--muted)}
+.tl{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.tl li{display:grid;grid-template-columns:52px auto minmax(0,1fr);gap:8px;align-items:start;font-size:14px;line-height:1.5}
+.tl .t{font:600 13px var(--num);padding-top:1px}
+.tl .x small{display:block;color:var(--muted);font-size:12.5px}
+.tl li.hl .x>b{color:var(--coral-ink)}
+.who{font-size:11px;font-weight:800;padding:1px 8px;border-radius:999px;white-space:nowrap;margin-top:2px}
+.who.all{background:var(--accent-soft);color:var(--accent)}
+.who.kid{background:var(--coral-soft);color:var(--coral-ink)}
+.who.par{background:var(--sun-soft);color:var(--busy)}
+.who.car{background:var(--soft);color:var(--muted)}
+@media (max-width:480px){.tl li{grid-template-columns:44px minmax(0,1fr)}.tl .who{grid-column:2;justify-self:start}.tl .x{grid-column:2}}
+.swap{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:10px}
+.swap div{background:var(--soft);border-radius:16px;padding:10px 13px;font-size:13px;line-height:1.5}
+.swap b{display:block;font:15px var(--display);font-weight:400;color:var(--accent)}
+.mapwrap{display:grid;grid-template-columns:minmax(0,280px) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:760px){.mapwrap{grid-template-columns:1fr}}
+.mapcol{position:sticky;top:env(safe-area-inset-top,0px)}
+@media (max-width:760px){.mapcol{position:static}}
+.coast{width:100%;max-width:280px;height:auto;display:block;margin:0 auto}
+.coast .sea{fill:var(--accent-soft)}
+.coast .wave{fill:none;stroke:var(--accent);stroke-width:1.5;opacity:.35}
+.coast .road{fill:none;stroke:var(--line);stroke-width:8;stroke-linecap:round}
+.coast .road2{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-dasharray:2 7;stroke-linecap:round}
+.coast .node{fill:var(--paper);stroke:var(--accent);stroke-width:3}
+.coast .node.home{fill:var(--sun);stroke:var(--busy)}
+.coast .node.air{fill:var(--coral);stroke:var(--coral-ink)}
+.coast text{fill:var(--ink);font-family:var(--body);font-size:13px;font-weight:800}
+.coast text.m{fill:var(--muted);font-family:var(--num);font-size:11px;font-weight:600}
+.coast text.sl{fill:var(--accent);font-family:var(--display);font-size:15px;font-weight:400}
+
+/* 맛집 */
+.tabs{display:flex;flex-wrap:wrap;gap:8px}
+.foods{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:12px}
+.food{background:var(--paper);border:1px solid var(--line);border-radius:22px;overflow:hidden;display:grid;grid-template-rows:auto 1fr;box-shadow:var(--shadow)}
+.food .fimg{aspect-ratio:16/10;max-width:100%;width:100%;object-fit:cover;display:block;background:var(--soft)}
+.food .fimg.emo{display:grid;place-items:center;font-size:54px;background:var(--sun-soft)}
+.food .fb{padding:12px 15px 14px;display:grid;gap:6px;align-content:start}
+.food .fh{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.food .fh b{font:17px/1.3 var(--display);font-weight:400}
+.food .fh .jp{font-size:11.5px;color:var(--muted);text-align:right}
+.food p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55}
+.food .tags{display:flex;flex-wrap:wrap;gap:5px}
+.food.must{border:2px solid var(--coral)}
+
+/* Q&A */
+.qa{display:grid;gap:10px}
+.qa details{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:0 16px;box-shadow:var(--shadow)}
+.qa summary{cursor:pointer;padding:13px 0;font-weight:800;font-size:15px;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary::after{content:"+";font-family:var(--num);color:var(--muted)}
+.qa details[open] summary::after{content:"−"}
+.qa .ans{padding:0 0 14px;font-size:14px;display:grid;gap:8px}
+.qa .ans p{margin:0}
+.qa .ans ul{margin:0;padding-left:20px}
+
+/* 계산기 */
+.calc{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:760px){.calc{grid-template-columns:1fr}}
+.calc-form{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:16px;display:grid;gap:13px;box-shadow:var(--shadow)}
+.fld{display:grid;gap:5px}
+.fld label{font-size:12.5px;font-weight:800;color:var(--muted)}
+.fld select,.fld input{font:inherit;font-size:14px;padding:8px 12px;border-radius:12px;border:1px solid var(--line);background:var(--ground);color:var(--ink);width:100%}
+.chk{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;cursor:pointer}
+.chk input{margin-top:4px;accent-color:var(--accent)}
+.chk small{display:block;color:var(--muted);font-size:12px}
+.calc-out{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:16px 18px;display:grid;gap:12px;box-shadow:var(--shadow);min-width:0}
+.total{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px}
+.total b{font:600 clamp(30px,5vw,40px)/1 var(--num);color:var(--accent)}
+.total span{color:var(--muted);font-size:13px}
+.cbar{display:flex;height:14px;border-radius:999px;overflow:hidden;background:var(--soft)}
+.cbar i{display:block;height:100%}
+.c1{background:var(--accent)}.c2{background:var(--coral)}.c3{background:var(--sun)}.c4{background:var(--best)}.c5{background:var(--ok)}.c6{background:var(--muted)}
+.cleg{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--muted)}
+.cleg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+.brk{width:100%;border-collapse:collapse;min-width:0;font-size:13.5px}
+.brk td{padding:7px 0;border-top:1px solid var(--line);vertical-align:top}
+.brk td.n{text-align:right;font-family:var(--num);white-space:nowrap;padding-left:10px}
+.brk td small{display:block;color:var(--muted);font-size:12px}
+.brk tr.sum td{font-weight:800;border-top:2px solid var(--ink)}
+.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:8px}
+.split div{background:var(--soft);border-radius:16px;padding:10px 13px;display:grid}
+.split b{font:600 20px var(--num)}
+.split span{font-size:12px;color:var(--muted)}
+
+/* 체크리스트 */
+.todo-progress{display:flex;align-items:center;gap:12px}
+.tp-bar{flex:1;height:12px;border-radius:999px;background:var(--soft);overflow:hidden}
+#tpFill{height:100%;width:0;background:var(--accent-grad);transition:width .3s}
+#tpText{font-size:13px;color:var(--muted);min-width:60px;text-align:right}
+.phases{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
+@media (max-width:700px){.phases{grid-template-columns:1fr}}
+.phase{background:var(--paper);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}
+.ph-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:12px 16px;background:var(--sun-soft)}
+.ph-head b{font:19px var(--display);font-weight:400}
+.ph-head span{font-size:12.5px;color:var(--muted)}
+.todo{display:grid;grid-template-columns:20px minmax(0,1fr);gap:10px;align-items:start;padding:11px 16px;border-top:1px solid var(--line);cursor:pointer}
+.todo:first-of-type{border-top:0}
+.todo input{width:18px;height:18px;margin:3px 0 0;accent-color:var(--best);cursor:pointer}
+.td-body{display:grid;gap:2px;font-size:14px}
+.td-body small{color:var(--muted);font-size:12.5px;line-height:1.5}
+.todo:has(input:checked) .td-body b{text-decoration:line-through;color:var(--muted)}
+.todo:has(input:checked){background:color-mix(in srgb,var(--best-bg) 50%,transparent)}
+
+/* 칠순 */
+.party{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:12px}
+.pt{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:14px 16px;display:grid;gap:4px;box-shadow:var(--shadow);align-content:start}
+.pt .ic{width:40px;height:40px;border-radius:14px;background:var(--sun-soft);display:grid;place-items:center;font-size:20px}
+.pt b{font:17px var(--display);font-weight:400}
+.pt p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55}
+
+footer{font-size:12.5px;color:var(--muted);display:grid;gap:8px;border-top:2px dotted var(--line);padding-top:18px}
+footer ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+footer li{background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:3px 12px;line-height:1.6}
+footer li a{text-decoration:none}
+footer details summary{cursor:pointer;font-weight:800;padding:4px 0}
+@media (max-width:640px){
+  .masthead{grid-template-columns:minmax(0,1fr)}
+  .side-col{grid-auto-flow:column;justify-content:start;align-items:center}
+  .mascot{width:84px;height:84px}
+  .ribbon{border-radius:28px;padding:12px 20px}
+  .oneline{grid-template-columns:minmax(0,1fr)}
+  .oneline .bubble{justify-self:start}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="ribbon"><span class="spark s1">✦</span><span class="spark s2">✦</span><span class="spark s3">✧</span>
+    <div class="eyebrow">2027.10.29(금) ~ 11.02(화) · 미야자키 IN → 후쿠오카 OUT · 3대 9명</div>
+    <h1>아버지 · 어머니 칠순 여행 작전판</h1>
+  </div>
+  <div class="side-col">
+    <svg class="mascot" viewBox="0 0 128 128" role="img" aria-label="고깔모자를 쓰고 활짝 웃는 별 마스코트">
+      <path d="M64 30 L52 4 L78 10 Z" fill="#ff7a59" stroke="#c4502f" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="52" cy="5" r="5" fill="#0f8a8c"/>
+      <path d="M64 18 L80 48 L118 52 L90 76 L98 114 L64 96 L30 114 L38 76 L10 52 L48 48 Z" fill="#ffd23f" stroke="#e0a800" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M43 63 q6 -7 12 0" fill="none" stroke="#2a2418" stroke-width="4" stroke-linecap="round"/>
+      <path d="M73 63 q6 -7 12 0" fill="none" stroke="#2a2418" stroke-width="4" stroke-linecap="round"/>
+      <ellipse cx="40" cy="75" rx="7" ry="4.5" fill="#ff9aa2" opacity=".8"/><ellipse cx="88" cy="75" rx="7" ry="4.5" fill="#ff9aa2" opacity=".8"/>
+      <path d="M53 76 q11 14 22 0 z" fill="#7c2d12"/>
+      <circle cx="16" cy="28" r="3" fill="#0f8a8c"/><circle cx="112" cy="24" r="3.5" fill="#ff7a59"/><circle cx="118" cy="92" r="2.5" fill="#0f8a8c"/>
+    </svg>
+    <span class="mood">축하 준비 중!</span>
+  </div>
+  <div class="hero-pics">
+    <figure><img src="img/aoshima.jpg" alt="하늘에서 본 아오시마 섬과 주변 바다"><figcaption>아오시마 · 숙소 바로 옆</figcaption></figure>
+    <figure><img src="img/moai.jpg" alt="선멧세 니치난의 모아이 석상" loading="lazy"><figcaption>선멧세 모아이</figcaption></figure>
+    <figure><img src="img/udo.jpg" alt="바위 동굴 속 우도 신궁 본전" loading="lazy"><figcaption>우도 신궁</figcaption></figure>
+    <figure><img src="img/nanban.jpg" alt="타르타르 소스를 올린 치킨난반" loading="lazy"><figcaption>치킨난반</figcaption></figure>
+    <figure><img src="img/motsunabe.jpg" alt="하카타 모츠나베" loading="lazy"><figcaption>하카타 모츠나베</figcaption></figure>
+  </div>
+  <div class="lede-card">
+    <p>부모님 칠순을 맞아 3대 9명이 떠나는 4박 5일 여행이에요. 아무도 안 가 본 <b>미야자키</b>에서 바다 · 신사 · 온천을 2박 즐기고, 국내선으로 넘어가 익숙한 <b>후쿠오카</b>에서 2박 동안 쇼핑과 먹방으로 마무리해요. 항공 3구간과 숙소는 잡아 둔 상태이고(숙소는 취소 가능), 이 판에서 <b>숙소 · 렌터카 · 동선 · 축제 피하기 · 맛집 휴무일 · 경비</b>를 한 번에 정리했어요. 요금 · 시간은 2026년 조사값이라 여행 1~2개월 전에 다시 확인해요. <span class="num">(작성 2026-11-22)</span></p>
+    <div class="badge-row">
+      <span class="badge">미야자키 2박 · 아오시마 바다 앞 독채</span>
+      <span class="badge co">후쿠오카 2박 · 하카타역 동쪽</span>
+      <span class="badge sun">10/30(토) 칠순 디너 · 축제 인파는 비켜 가기</span>
+      <span class="badge">렌터카 미니밴 2대</span>
+    </div>
+  </div>
+</header>
+
+<div class="oneline"><span class="bubble">한 줄 요약!</span><p>미야자키는 <em>바다 앞 독채 한 채</em>에서 9명이 같이 묵고, 칠순 날 아침 <em>태평양 일출 가족사진</em> → 니치난 해안 드라이브 → 전세 노천탕 → <em>개별실 칠순 디너</em>. 시내 축제 인파는 해안 유료도로로 비켜 가고, 후쿠오카는 <em>초밥 · 다이소 · 돈키호테 · 온천</em>으로 원 없이!</p></div>
+
+<div class="kpis">
+  <div class="kpi coral"><span class="label">출발까지</span><span class="value" id="dday">D-341</span><span class="sub">2027-10-29(금) 09:40 인천 출발</span></div>
+  <div class="kpi teal"><span class="label">미야자키 숙소</span><span class="value k">바다 앞 독채</span><span class="sub">예약한 에어비앤비 유지 · ANA 호텔 취소</span></div>
+  <div class="kpi"><span class="label">렌터카</span><span class="value k">미니밴 2대</span><span class="sub">8인승 × 2 · 자주식 주차장 OK</span></div>
+  <div class="kpi warn"><span class="label">9명 총경비 (항공 제외)</span><span class="value" id="kpiTot">—</span><span class="sub">아래 계산기 기본값 · 쇼핑 제외</span></div>
+</div>
+
+<details class="guide">
+  <summary>📖 이 작전판 읽는 법</summary>
+  <div class="guide-grid">
+    <div class="guide-item"><b>색깔</b>틸(청록)은 미야자키, 코랄(주황)은 후쿠오카예요. 일정 카드 윗선 색으로 어느 도시인지 바로 보여요.</div>
+    <div class="guide-item"><b>누구랑 표시</b><span class="who all">전원</span> <span class="who par">부모님</span> <span class="who kid">아이들</span> <span class="who car">운전</span> 꼬리표로 누구 일정인지 표시했어요.</div>
+    <div class="guide-item"><b>휴무 달력</b>○ 영업 · × 휴무 · △ 확인 필요. 틸 테두리에 ★ 붙은 칸이 우리가 가는 날이에요.</div>
+    <div class="guide-item"><b>확인 / 추정</b>"추정"이나 "확인 필요"가 붙은 정보는 출처가 없거나 2027년에 바뀔 수 있는 값이에요. 체크리스트에 다시 볼 시점을 넣어 뒀어요.</div>
+    <div class="guide-item"><b>사진</b>위키미디어 공용의 자유 라이선스 사진이에요. 맨 아래에 찍은 분과 라이선스를 적었어요.</div>
+  </div>
+</details>
+
+<!-- ===== 크루 ===== -->
+<section aria-labelledby="h-crew">
+  <div class="sec-head"><div class="eyebrow">원정대</div><h2 id="h-crew">우리 9명, 세 가족</h2>
+    <p>세계 곳곳을 다녀 본 여행 고수들이에요. 역할은 재미로 붙인 제안이에요.</p></div>
+  <div class="crew">
+    <div class="fam star"><h3>주인공</h3>
+      <div class="mem"><span class="av p">父</span><div><b>아버지 · 칠순</b><small>명예 단장 · 한자 메뉴판과 중국어는 아버지 몫</small></div></div>
+      <div class="mem"><span class="av p">母</span><div><b>어머니 · 칠순</b><small>쇼핑 총감독 · 이번 여행 주인공</small></div></div>
+    </div>
+    <div class="fam"><h3>우리 집</h3>
+      <div class="mem"><span class="av">나</span><div><b>나</b><small>1호차 기장 · 총괄 · 길 찾기 담당</small></div></div>
+      <div class="mem"><span class="av">아</span><div><b>아내</b><small>총무(지갑)</small></div></div>
+      <div class="mem"><span class="av k">딸</span><div><b>딸 · 초5</b><small>사진기자 · 초밥 접시 카운터</small></div></div>
+    </div>
+    <div class="fam"><h3>여동생네</h3>
+      <div class="mem"><span class="av">동</span><div><b>여동생</b><small>숙소 헌터 · 2호차 내비</small></div></div>
+      <div class="mem"><span class="av">매</span><div><b>매제</b><small>2호차 기장</small></div></div>
+      <div class="mem"><span class="av k">조</span><div><b>조카 첫째 · 초1</b><small>가챠 탐험대장 · 주니어시트 권장</small></div></div>
+      <div class="mem"><span class="av k">막</span><div><b>조카 둘째 · 만 5세</b><small>막내 VIP · <b>카시트 법적 의무</b>(6세 미만)</small></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 항공 ===== -->
+<section aria-labelledby="h-fly">
+  <div class="sec-head"><div class="eyebrow">이미 잡아 둔 하늘길</div><h2 id="h-fly">비행기 세 번, 5일 한눈에</h2>
+    <p>들어갈 땐 미야자키, 나올 땐 후쿠오카라 같은 길을 되돌아가지 않아요. 가운데 국내선은 프로펠러 소형기라 짐 규정이 국제선과 달라요.</p></div>
+  <div class="tickets">
+    <div class="ticket"><div class="main"><span class="when">10/29(금) · 대한항공 KE2163</span><span class="leg">ICN <i>✈</i> KMI</span><span class="when"><b class="num">09:40 → 11:20</b> · 1시간 40분</span><span class="note">무료 위탁 1개(23kg)</span></div><div class="stub"><b>IN</b><span>미야자키</span></div></div>
+    <div class="ticket dom"><div class="main"><span class="when">10/31(일) · ANA NH4672 (ORC 운항)</span><span class="leg">KMI <i>✈</i> FUK</span><span class="when"><b class="num">20:30 → 21:30</b> · 1시간</span><span class="note">DH4 프로펠러기 · Simple 운임 · 위탁 1인 20kg 정도(추정) · 큰 캐리어 주의</span></div><div class="stub"><b>국내선</b><span>후쿠오카</span></div></div>
+    <div class="ticket"><div class="main"><span class="when">11/2(화) · 대한항공 KE782</span><span class="leg">FUK <i>✈</i> ICN</span><span class="when"><b class="num">21:05 → 22:35</b> · 1시간 30분</span><span class="note">무료 위탁 1개(23kg) · 쇼핑 짐은 이때 실어요</span></div><div class="stub"><b>OUT</b><span>인천</span></div></div>
+  </div>
+  <div class="strip">
+    <div class="sd"><span class="d">10/29 금</span><b>도착 · 아오시마</b><small>치킨난반 → 이온몰 장보기 → 신사 노을 → 독채 파티</small></div>
+    <div class="sd"><span class="d">10/30 토</span><b>칠순 데이</b><small>일출 사진 → 니치난 해안 → 전세 노천탕 → 칠순 디너</small></div>
+    <div class="sd mix"><span class="d">10/31 일</span><b>초밥 · 동물원 → 후쿠오카</b><small>축제 구간 피해 해안도로로 → 18시 렌터카 반납 → 국내선</small></div>
+    <div class="sd fk"><span class="d">11/1 월</span><b>다자이후 · 온천 · 초밥</b><small>다자이후 → 후츠카이치 온천 → 100엔 초밥 → 돈키호테</small></div>
+    <div class="sd fk"><span class="d">11/2 화</span><b>쇼핑 피날레</b><small>한큐 · 다이소 → 멘타이주 → 온천 → 21:05 귀국</small></div>
+  </div>
+</section>
+
+<!-- ===== 미야자키 소개 ===== -->
+<section aria-labelledby="h-why">
+  <div class="sec-head"><div class="eyebrow">미야자키는 어떤 곳?</div><h2 id="h-why">괌보다 남국 같은 일본</h2>
+    <p>규슈 동남쪽, 태평양을 마주한 따뜻한 해안이에요. 야자수가 늘어선 길과 바다에서 뜨는 해로 유명하고, 1960~70년대 일본에서 신혼여행지로 가장 인기 있던 곳이에요. 부모님 세대의 "로망 여행지"를 칠순에 가는 셈이에요.</p></div>
+  <div class="pics">
+    <figure><img src="img/washboard.jpg" alt="아오시마 해안의 빨래판 모양 바위" loading="lazy"><figcaption>도깨비 빨래판</figcaption></figure>
+    <figure><img src="img/horikiri.jpg" alt="호리키리 고개에서 본 해안과 야자수" loading="lazy"><figcaption>호리키리 고개</figcaption></figure>
+    <figure><img src="img/nichinan.jpg" alt="니치난 해안 국도 220호" loading="lazy"><figcaption>니치난 해안도로</figcaption></figure>
+    <figure><img src="img/obi.jpg" alt="오비 성 오테몬 정문" loading="lazy"><figcaption>오비 성</figcaption></figure>
+  </div>
+  <div class="grid3">
+    <div class="card"><h3>날씨 · 해</h3><ul class="pc"><li class="dot">10월 평균 기온 <b class="num">20℃</b>(기상청 평년값). 낮 23℃ 안팎, 아침 14℃ 안팎(추정)</li><li class="dot">일출 <b class="num">06:28</b> · 일몰 <b class="num">17:28</b>(10/29, 국립천문대)</li><li class="dot">반팔 + 얇은 겉옷. 해안 관광은 16:30까지 마치는 일정으로</li></ul></div>
+    <div class="card"><h3>마침 축제 기간이에요</h3><ul class="pc"><li class="dot"><b>미야자키 신궁대제(진무사마)</b>가 <b>10/30~31</b>에 열릴 가능성이 커요. 관람객 약 10만 명, 현 최대 축제예요</li><li class="con">사람 많은 걸 싫어하는 우리 가족 기준으로 <b>기본은 피해 가는 동선</b>으로 짰어요. 경로와 시간은 <a href="#h-fest">축제 섹션</a>에</li></ul></div>
+    <div class="card"><h3>이 가족 취향과 맞는 점</h3><ul class="pc"><li class="pro">아오시마 · 우도 신궁 · 모아이 등 바다 절경이 차로 1시간 안에 다 있어요</li><li class="pro">이온몰 · 스시로 · 하마스시 · 쿠라스시가 공항과 시내 사이에 모여 있어요</li><li class="pro">지도리 숯불구이, 치킨난반, 미야자키규 등 여기서만 먹는 음식이 많아요</li></ul></div>
+  </div>
+</section>
+
+<!-- ===== 미야자키 숙소 ===== -->
+<section aria-labelledby="h-stay">
+  <div class="sec-head"><div class="eyebrow">숙소 ① 미야자키 2박 (10/29 · 10/30)</div><h2 id="h-stay">바다 앞 독채가 1등</h2>
+    <p>지금 두 곳을 같은 이틀에 잡아 뒀어요. 새 후보 하나를 더해 셋을 비교했고, 결론은 <b>에어비앤비 독채 유지</b>예요. 버튼을 누르면 장단점이 바뀌고 계산기도 같이 바뀌어요.</p></div>
+  <div class="pick-bar" role="group" aria-label="미야자키 숙소 고르기">
+    <span class="lb">미야자키 숙소</span>
+    <button class="seg-btn" type="button" data-stay="A" aria-pressed="true">바다 앞 독채<span class="r">추천</span></button>
+    <button class="seg-btn" type="button" data-stay="C" aria-pressed="false">시가이아 콘도<span class="r">2순위</span></button>
+    <button class="seg-btn" type="button" data-stay="B" aria-pressed="false">ANA 홀리데이 인</button>
+  </div>
+
+  <div class="panel card" data-stay-panel="A">
+    <div class="stay-top">
+      <div class="stay-head"><span class="tag ok" style="justify-self:start">예약됨 · 유지 추천</span><h3>아오시마 오션프런트 별장 (에어비앤비)</h3><p class="fine">"파도 소리와 함께 잠들고 아침 해와 함께 일어나는" 3층 단독주택 · 아오시마 근처 바닷가 · 2024-07 전면 리노베이션</p>
+        <div class="price"><b class="num">150만</b><span>2박 · 9명 한 채 · 1인 1박 약 8.3만원</span></div></div>
+      <figure class="ph"><img src="img/aoshima.jpg" alt="아오시마와 주변 해변 항공사진" loading="lazy"><figcaption>숙소 앞 바다 · 아오시마 일대</figcaption></figure>
+    </div>
+    <div class="facts">
+      <div><b>최대 11명</b><span>침실 4 · 침대 7 (더블 여러 개 + 소파베드 2 + 싱글 1). 이층침대 없음</span></div>
+      <div><b>욕실 2.5개</b><span>0.5는 화장실만. 9명이면 아침 순서 정하기</span></div>
+      <div><b>풀 키친 · 자쿠지</b><span>냉장고 · 인덕션 · 밥솥 · 뒷마당 · 바다 전망 베란다</span></div>
+      <div><b>평점 5.0</b><span>후기 4개 · 슈퍼호스트(전체 후기 68개, 4.88)</span></div>
+    </div>
+    <div class="grid2">
+      <div><ul class="pc">
+        <li class="pro"><b>9명이 한 지붕 아래</b>. 칠순 생일상, 손주들 재롱, 밤 수다를 한 거실에서 해요</li>
+        <li class="pro">이온몰에서 회 · 초밥 · 와규 · 과일을 잔뜩 사 와서 <b>집 파티</b>. 마트 좋아하는 우리 가족에게 딱 맞아요</li>
+        <li class="pro">동쪽 바다 앞이라 <b>10/30 칠순 아침 06:28 일출</b>을 집 앞 해변에서 봐요. 가족사진 최고 명당</li>
+        <li class="pro">아오시마 신사 · 호리키리 고개 · 니치난 해안이 다 가깝고, 시내 축제 구간과는 멀어요</li>
+      </ul></div>
+      <div><ul class="pc">
+        <li class="con">집 안에 온천이 없어요 → 걸어갈 만한 <b>호텔 아오시마 산쿠마르 전세 노천탕</b>(호스트 추천)으로 채워요</li>
+        <li class="con">3층 구조라 계단이 있어요. 부모님 침실은 아래층으로</li>
+        <li class="con">ANA 호텔(103만)보다 47만원 비싸요. 대신 9명이 한 공간이에요</li>
+        <li class="ask">호스트에게 물을 것: <b>주차 2대 가능?</b> · <b>1층에 침대 있는 방?</b> · 체크인 시각(오후 일찍 가능?)</li>
+      </ul></div>
+    </div>
+    <p class="fine">체크인 전날까지 9명 전원 여권 사진 제출, 전 객실 금연, 하루 한 팀만 받아요. 숙소 내부 사진은 에어비앤비 예약 화면에서 볼 수 있어요.</p>
+  </div>
+
+  <div class="panel card" data-stay-panel="C" hidden>
+    <div class="stay-top">
+      <div class="stay-head"><span class="tag teal" style="justify-self:start">새 후보 · 2순위</span><h3>시가이아 포레스트 콘도미니엄 · 파노라마 오션 4베드룸</h3><p class="fine">피닉스 시가이아 리조트 안(옛 쉐라톤 단지, 2025-06 이름 변경) · 미야자키 시내 북쪽 해안</p>
+        <div class="price"><b class="num">약 110~220만</b><span>2박 추정 · 4베드룸 요금 미공개</span></div></div>
+      <figure class="ph"><img src="img/seagaia.jpg" alt="하늘에서 본 시가이아 리조트와 소나무 숲" loading="lazy"><figcaption>시가이아 리조트</figcaption></figure>
+    </div>
+    <div class="facts">
+      <div><b>정원 9명 딱</b><span>양실 3 + 화실 1 · 약 119㎡ 4LDK · 10~12층 바다 전망</span></div>
+      <div><b>키친 · 세탁건조기</b><span>IH · 오븐레인지 · 식기. 조식 뷔페 7~10시 별도</span></div>
+      <div><b>온천 쇼센큐 '쓰쿠요미'</b><span>콘도 투숙객 어른 1,100 · 아이 600엔 · 전세탕 60분 6,000엔(정원 4명)</span></div>
+      <div><b>무료 주차</b><span>자주식 · 예약 불필요</span></div>
+    </div>
+    <div class="grid2">
+      <div><ul class="pc"><li class="pro">9명 한 공간 + 온천 + 리조트 서비스를 다 갖춘 곳</li><li class="pro">이층침대 없음, 고층 건물이라 엘리베이터(추정)로 부모님 편해요</li><li class="pro">칠순 디너 후보(日向海 · 四季乃)가 같은 리조트 안이에요</li></ul></div>
+      <div><ul class="pc"><li class="con">아오시마 · 니치난과 반대쪽(북쪽)이라 해안 드라이브가 왕복 30분 이상 길어져요</li><li class="con">요금이 아직 공개 안 됐어요. 독채보다 비쌀 가능성이 커요</li><li class="con">2박이면 중간 청소 5,000엔 등 부대비용</li></ul></div>
+    </div>
+    <p class="fine">독채 호스트 답이 별로면(주차 1대, 1층 침실 없음) 여기로 갈아타요. 출처: seagaia.co.jp 포레스트 콘도미니엄 · 온천 안내.</p>
+  </div>
+
+  <div class="panel card" data-stay-panel="B" hidden>
+    <div class="stay-top">
+      <div class="stay-head"><span class="tag warn" style="justify-self:start">예약됨 · 취소 추천</span><h3>ANA 홀리데이 인 리조트 미야자키 (방 2개)</h3><p class="fine">宮崎市青島1-16-1 · 아오시마 해변 걸어서 8분, 아오시마 신사 걸어서 20분</p>
+        <div class="price"><b class="num">103만</b><span>2박 · 방 2개 · 가장 저렴</span></div></div>
+      <figure class="ph"><img src="img/washboard.jpg" alt="아오시마 해안 바위" loading="lazy"><figcaption>호텔 앞 아오시마 해안</figcaption></figure>
+    </div>
+    <div class="facts">
+      <div><b>바다 전망 대욕장</b><span>투숙객 무료 5:00~24:00 (목 ~23:00)</span></div>
+      <div><b>화실 33㎡</b><span>이불 4~5채 → 2실이면 9~10명</span></div>
+      <div><b>무료 주차 200대</b><span>옥외 평면이라 어떤 차든 OK</span></div>
+      <div><b>15:00 / 11:00</b><span>체크인 / 체크아웃</span></div>
+    </div>
+    <div class="grid2">
+      <div><ul class="pc"><li class="pro">47만원 아껴요</li><li class="pro">온천이 호텔 안에 있어 부모님이 편해요</li><li class="pro">위치는 독채와 거의 같아요(아오시마)</li></ul></div>
+      <div><ul class="pc"><li class="con"><b>남탕이 2026-11-09부터 폐쇄 중</b>. 지금은 여탕을 남녀가 시간을 나눠 쓰고 노천탕은 공사 중. 2027-10까지 복구될지 미정</li><li class="con">두 방으로 나뉘어 칠순 파티 · 집밥 분위기가 안 나요</li><li class="con">수영장 정보가 사이트마다 달라요(있음 / 없음)</li></ul></div>
+    </div>
+    <p class="fine">독채를 유지하면 여기는 취소해요. 문의 0985-65-2929.</p>
+  </div>
+
+  <div class="verdict"><span class="medal">1</span><p><b class="t">결론: 독채 유지, ANA 호텔 취소</b>칠순 여행의 핵심은 "9명이 한자리에"예요. 독채는 일출 · 집 파티 · 생일상이 다 되고, 아쉬운 온천은 근처 전세 노천탕으로 채워요. 호스트에게 질문 3개(주차 2대 · 1층 침실 · 체크인 시각)를 보내고, 답이 별로면 2순위 시가이아 콘도로 갈아타요. ANA 호텔은 결정이 끝날 때까지 취소 기한 안에서 들고 있어도 돼요.</p></div>
+</section>
+
+<!-- ===== 후쿠오카 숙소 ===== -->
+<section aria-labelledby="h-fstay">
+  <div class="sec-head"><div class="eyebrow">숙소 ② 후쿠오카 2박 (10/31 · 11/1)</div><h2 id="h-fstay">Minn 유지, 방 3개 모두 "이층침대 없는 방"으로</h2>
+    <p>국내선이 21:30에 내려서 <b>밤늦게 체크인 되는지</b>가 제일 중요해요. 지금 예약한 Minn은 자정까지 받아줘서 가장 안전해요. 다만 이층침대 객실이 섞여 있으니 방 타입을 꼭 바꿔요.</p></div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>숙소</th><th>위치</th><th>9명 묵는 방식</th><th>늦은 체크인</th><th>판단</th></tr></thead>
+      <tbody>
+        <tr class="pick"><td><b>Minn 博多 Station East</b><span class="sub">예약됨 · 방 3개 · 130만 · 2026-09 개업</span></td><td>博多駅東3-9-30<span class="sub">하카타역 지쿠시 출구 도보 9분 · 히가시히에역 6분</span></td><td>전 객실 키친 아파트형<span class="sub"><b>모더레이트 4베드 = 더블 2 + 싱글 2</b>(이층침대 없음) · 스탠다드 · 디럭스는 이층침대</span></td><td><span class="tag ok">24:00까지</span></td><td><b>유지</b><span class="sub">모더레이트 × 3으로 변경 요청</span></td></tr>
+        <tr><td><b>Hotel Iori (ホテル庵)</b><span class="sub">로열E 76㎡</span></td><td>博多駅南2-4-13<span class="sub">하카타역 도보 10분</span></td><td><b>정원 10명 한 방</b><span class="sub">더블 5 · 키친 · 세탁기 · 이층침대 없음</span></td><td><span class="tag no">21:00까지</span></td><td><b>플랜 B</b><span class="sub">Minn 모더레이트가 안 되면, 늦은 도착 협의 후</span></td></tr>
+        <tr><td><b>그랜드베이스 하카타 프리미엄</b></td><td>하카타역 도보 13분</td><td>객실당 최대 10명<span class="sub">키친 · 세탁기 · 태블릿 체크인</span></td><td><span class="tag warn">미확인</span></td><td>참고</td></tr>
+        <tr><td><b>트립베이스 하카타에키마에</b><span class="sub">로열C 69.5㎡</span></td><td>博多駅前4-34-1<span class="sub">하카타역 도보 15분</span></td><td>정원 9명 · <b>복층</b></td><td><span class="tag warn">22:00까지</span></td><td>비추천<span class="sub">계단 · 빠듯한 체크인</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="grid2">
+    <div class="callout teal"><b>Minn에서 꼭 할 일</b><br>① 방 3개를 모두 <b>모더레이트(더블 2 + 싱글 2)</b>로 바꿀 수 있는지 확인해요(사이트마다 정원 4~6명 표기가 달라요). ② 프런트가 없어요. 출입 코드는 체크인 24시간 전 메일로 와요. ③ 현금 결제 불가. ④ <b>체크아웃 뒤 짐 보관</b>이 되는지 꼭 물어봐요(출국이 밤 9시).</div>
+    <div class="callout"><b>왜 하카타역 동쪽이 좋은가</b><br>공항이 지하철로 5분이고, 출국날 국제선 직행버스가 서는 <b>지쿠시 출구</b>(하카타역 동쪽)가 가까워요. 대형 다이소(하카타 버스터미널 5층)와 하카타 한큐도 걸어가요.</div>
+  </div>
+</section>
+
+<!-- ===== 렌터카 ===== -->
+<section aria-labelledby="h-car">
+  <div class="sec-head"><div class="eyebrow">미야자키 렌터카 (후쿠오카는 필요 없어요)</div><h2 id="h-car">10인승 1대보다 8인승 미니밴 2대</h2>
+    <p>미야자키는 대중교통이 드물어서 차가 꼭 필요해요. 하이에이스 10인승도 있지만, 9명에 짐과 카시트까지 생각하면 두 대가 더 편해요.</p></div>
+  <div class="grid3">
+    <div class="card"><figure class="ph"><img src="img/noah.jpg" alt="토요타 노아 미니밴" loading="lazy"><figcaption>토요타 노아</figcaption></figure><span class="tag ok" style="justify-self:start">추천</span><h3>미니밴 2대 (노아 · 복시 · 세레나급 8인승)</h3>
+      <ul class="pc"><li class="dot"><b>1호차</b>: 우리 집 3명 + 부모님 = 5명. 3열을 접어 캐리어 5개</li><li class="dot"><b>2호차</b>: 여동생네 4명 + 카시트 · 주니어시트</li><li class="pro">가족마다 짐이 나뉘어 편하고, 부모님 피곤하면 1호차만 먼저 숙소로</li><li class="pro">높이 약 1.9m → 자주식 입체 주차장 OK</li><li class="con">3일 약 <b class="num">10.3만엔</b>(2대) + 면책 · 기름 2배</li></ul></div>
+    <div class="card"><figure class="ph"><img src="img/alphard.jpg" alt="토요타 알파드" loading="lazy"><figcaption>토요타 알파드</figcaption></figure><span class="tag co" style="justify-self:start">업그레이드 안</span><h3>1호차만 알파드</h3>
+      <ul class="pc"><li class="pro">부모님 칠순 VIP석. 2열 독립 시트라 편해요</li><li class="dot">알파드 3일 약 6.5만엔 + 노아 5.2만엔 ≈ <b class="num">11.7만엔</b></li><li class="con">노아 2대보다 약 1.3만엔 더 들고, 폭이 넓어 기계식 주차는 거의 안 돼요</li></ul></div>
+    <div class="card"><figure class="ph"><img src="img/hiace.jpg" alt="토요타 하이에이스 그랜드캐빈" loading="lazy"><figcaption>하이에이스 그랜드캐빈</figcaption></figure><span class="tag warn" style="justify-self:start">비추천</span><h3>하이에이스 10인승 1대</h3>
+      <ul class="pc"><li class="pro">3일 약 <b class="num">7~8만엔</b>으로 가장 싸고, 9명이 한 차에</li><li class="con"><b>미야자키공항점에 실제 있는지 미확인</b>(비교 사이트엔 8인승까지만)</li><li class="con">9명이 타면 뒤 짐칸이 좁아 캐리어 9개는 빠듯</li><li class="con">높이 2.28m → 입체 · 지하 주차장 대부분 못 들어가요</li></ul></div>
+  </div>
+
+  <div class="card">
+    <h3>입체 주차장, 미니밴은 들어갈까?</h3>
+    <p class="fine" style="font-size:13.5px;color:var(--ink)">일본 주차장은 두 종류예요. 직접 운전해 층을 오르내리는 <b>자주식(自走式)</b>은 보통 높이 2.1m 제한이라 미니밴이 다 들어가요. 차를 기계에 넣어 올리는 <b>기계식(機械式)</b>은 대부분 1.55m 제한이라 미니밴은 못 들어가요. 입구 간판의 <code>高さ制限 2.1m</code> 같은 숫자를 보면 돼요.</p>
+    <div class="tbl-wrap" style="box-shadow:none">
+      <table>
+        <thead><tr><th>차종</th><th>높이</th><th>자주식 입체 (2.1m)</th><th>기계식 하이루프 (2.0m)</th><th>기계식 일반 (1.55m)</th></tr></thead>
+        <tbody>
+          <tr><td><b>노아 · 복시</b> (90계)</td><td class="num">1,895~1,925mm</td><td><span class="tag ok">OK</span></td><td><span class="tag ok">높이는 OK</span><span class="sub">폭 · 무게 제한도 확인</span></td><td><span class="tag no">불가</span></td></tr>
+          <tr><td><b>세레나</b> (C28)</td><td class="num">1,870~1,895mm</td><td><span class="tag ok">OK</span></td><td><span class="tag ok">높이는 OK</span></td><td><span class="tag no">불가</span></td></tr>
+          <tr><td><b>알파드</b> (40계)</td><td class="num">1,935mm</td><td><span class="tag ok">OK</span></td><td><span class="tag warn">대부분 거절</span><span class="sub">폭 1,850mm · 2톤대</span></td><td><span class="tag no">불가</span></td></tr>
+          <tr><td><b>하이에이스</b> 그랜드캐빈</td><td class="num">2,280mm</td><td><span class="tag no">불가</span></td><td><span class="tag no">불가</span></td><td><span class="tag no">불가</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="fine">이번 동선의 주차장(독채 · 이온몰 · 관광지 · 시가이아)은 거의 다 평면이나 자주식이라 미니밴은 걱정 없어요. 출처: 토요타 · 닛산 제원표.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="card"><h3>운전 준비물</h3><ul class="pc">
+      <li class="dot"><b>한국 면허증 + 국제운전면허증 + 여권</b> 셋 다 (한국은 제네바협약국). 국제면허는 경찰서 · 면허시험장에서 바로 발급</li>
+      <li class="dot">운전자는 <b>나 · 매제 + 아내 · 여동생</b>까지 4명 등록해 두면 교대가 편해요</li>
+      <li class="dot">차일드시트: 둘째 조카(만 5세)는 <b>법적 의무</b>, 첫째(초1)는 주니어시트 권장 → 예약 때 같이 신청</li>
+      <li class="dot">토요타렌터카는 한국어 예약 페이지와 영상 통역을 지원해요</li>
+    </ul></div>
+    <div class="card"><h3>반납 · 국내선 타이밍 (10/31 일)</h3><ul class="pc">
+      <li class="dot"><b class="num">17:45</b> 이온몰에서 출발 → 해안 유료도로 남쪽 구간으로 공항(축제 구간 안 지남)</li>
+      <li class="dot"><b class="num">18:00</b> 공항 근처 주유소에서 기름 가득 → 반납</li>
+      <li class="dot"><b class="num">18:30</b> 반납 지점 무료 셔틀(3~7분) → 공항</li>
+      <li class="dot"><b class="num">19:00~19:30</b> 수하물 맡기고 공항에서 저녁</li>
+      <li class="dot"><b class="num">20:10</b> 보안검색 마감(출발 20분 전)</li>
+      <li class="con">공항 지점은 대개 8~20시 영업. 반납이 20시 넘으면 안 돼요</li>
+    </ul></div>
+  </div>
+</section>
+
+<!-- ===== 축제 ===== -->
+<section aria-labelledby="h-fest">
+  <div class="sec-head"><div class="eyebrow">미야자키 신궁대제 (神武さま · 진무사마)</div><h2 id="h-fest">축제, 보러 가든 피하든 이 지도 한 장</h2>
+    <p>"10월 26일 다음 토 · 일" 규칙대로면 2027년은 <b>10/30(토) · 10/31(일)</b>이에요(공식 발표는 2027년 여름). 참가자 1,000명 넘는 신들의 가장 행렬에 관람객이 약 10만 명 몰리는 현 최대 축제예요. 행렬이 머무는 오타비쇼는 해마다 번갈아 바뀌는데, 홀수 해인 2027년은 <b>세가시라(瀬頭)</b> 쪽 경로일 가능성이 커요.</p></div>
+  <div class="fest">
+    <div class="card" style="padding:12px">
+      <svg class="fmap" viewBox="0 0 340 500" role="img" aria-label="신궁대제 행렬 경로와 해안 우회로 약도">
+        <path class="sea" d="M300 0 L340 0 L340 500 L300 500 Q285 380 300 250 Q312 120 300 0 Z"/>
+        <text class="s" x="306" y="300" transform="rotate(90 312 300)">태평양</text>
+        <path class="river" d="M10 282 Q150 268 330 286"/>
+        <text class="m" x="14" y="302">大淀川(오요도강)</text>
+        <!-- 해안 우회로 -->
+        <path class="bypass" d="M268 34 L268 170 L272 282 L262 380 L236 440 L214 488"/>
+        <circle class="n g" cx="268" cy="34" r="7"/><text class="g" x="196" y="24">시가이아 IC</text>
+        <text class="m" x="200" y="56">피닉스 동물원 근처</text>
+        <circle class="n g" cx="268" cy="170" r="6"/><text class="m" x="200" y="166">미야자키항</text>
+        <circle class="n g" cx="220" cy="140" r="6"/><text x="168" y="128">이온몰</text><text class="m" x="168" y="146" dx="-2">新別府</text>
+        <circle class="n g" cx="262" cy="380" r="6"/><text class="m" x="196" y="376">赤江 · 田吉 IC</text>
+        <circle class="n g" cx="236" cy="440" r="8"/><text class="g" x="168" y="444">미야자키공항</text>
+        <text class="g" x="150" y="494">↓ 아오시마 · 숙소</text>
+        <text class="g" x="276" y="110" transform="rotate(90 282 110)">一ツ葉 유료도로</text>
+        <!-- 토요일 밤 高千穂通 -->
+        <path class="night" d="M100 190 L176 190"/>
+        <circle class="n" cx="176" cy="190" r="6" style="stroke:var(--busy)"/><text class="y" x="150" y="212">미야자키역</text>
+        <text class="y" x="112" y="180">高千穂通</text>
+        <!-- 행렬 -->
+        <path class="parade" d="M100 40 L100 110 L100 190 L100 282 L100 345 L100 395"/>
+        <path class="parade2" d="M100 395 L100 450"/>
+        <circle class="n" cx="100" cy="40" r="8"/><text x="10" y="36">미야자키 신궁</text><text class="r" x="10" y="52" style="font-size:10.5px">13:00 출발(토)</text>
+        <circle class="n" cx="100" cy="110" r="5"/><text class="m" x="10" y="114">江平五差路</text>
+        <circle class="n" cx="100" cy="190" r="6"/><text class="m" x="10" y="186">橘通り</text><text class="m" x="10" y="200">山形屋 · 백화점 앞</text>
+        <circle class="n h" cx="78" cy="268" r="7"/><text class="m" x="10" y="252">미야자키관광호텔</text>
+        <circle class="n" cx="100" cy="282" r="5"/><text class="m" x="110" y="270">橘橋</text>
+        <circle class="n" cx="100" cy="345" r="5"/><text class="m" x="10" y="349">旭通り</text>
+        <circle class="n" cx="100" cy="395" r="8"/><text x="10" y="392">瀬頭 오타비쇼</text><text class="r" x="10" y="408" style="font-size:10.5px">약 15시 도착(토)</text>
+        <text class="m" x="10" y="452">남미야자키역 쪽</text><text class="m" x="10" y="466">(통제 끝)</text>
+        <!-- 범례 -->
+        <rect x="8" y="472" width="14" height="5" rx="2" fill="var(--avoid)"/><text class="m" x="26" y="478">행렬 · 통제</text>
+      </svg>
+      <p class="fine" style="text-align:center">약도(축척 아님) · 2025년(홀수 해) 경로 기준 추정 · <span style="color:var(--avoid);font-weight:800">빨강</span> 행렬 · <span style="color:var(--busy);font-weight:800">노랑</span> 토요일 밤 광장 · <span style="color:var(--best);font-weight:800">초록</span> 해안 우회로</p>
+    </div>
+    <div style="display:grid;gap:14px;min-width:0">
+      <div class="grid2">
+        <figure class="ph" style="aspect-ratio:4/3"><img src="img/jinmu.jpg" alt="신궁대제 행렬의 가마" loading="lazy"><figcaption>행렬의 가마 (2008)</figcaption></figure>
+        <figure class="ph" style="aspect-ratio:4/3"><img src="img/otabisho.jpg" alt="오요도 오타비쇼" loading="lazy"><figcaption>오타비쇼 (짝수 해 쪽)</figcaption></figure>
+      </div>
+      <div class="card"><h3>언제 · 어디가 막히나</h3>
+        <ul class="tline">
+          <li><b class="t">토 12:30~17:00</b><span>국도 220호(橘通り) <b>신궁 ~ 橘橋 ~ 남미야자키</b> 차량 통행 금지. 행렬은 13시 신궁 출발 → 약 15시 瀬頭 도착</span></li>
+          <li class="y"><b class="t">토 16:30~22:00</b><span><b>高千穂通(야마카타야 앞 ~ 미야자키역 앞)</b> 통제. 17:45~21:00 '진무사마 광장' 행사. 낮에는 一番街 · 若草通 등 상점가도 통제</span></li>
+          <li><b class="t">일 12:30~16:30</b><span>토요일 길을 거꾸로, <b>瀬頭 → 신궁</b>으로 돌아가요. 노선버스도 우회 · 운휴</span></li>
+          <li class="g"><b class="t">언제나 OK</b><span>해안의 <b>一ツ葉(히토츠바) 유료도로</b>: 시가이아 ↔ 미야자키항 ↔ 공항 · 아오시마를 도심을 거치지 않고 연결해요</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card"><span class="tag ok" style="justify-self:start">우리 기본안</span><h3>피하려면</h3><ul class="pc">
+      <li class="pro">토요일 낮엔 남쪽 니치난 해안에 있어서 겹치지 않아요</li>
+      <li class="pro">토요일 저녁 칠순 디너는 시내 대신 <b>시가이아 리조트 안 식당</b>으로. 아오시마 → 공항 → 一ツ葉 유료도로로 가면 도심을 안 지나요</li>
+      <li class="pro">일요일 오후엔 북쪽 동물원 · 이온몰 → 해안도로로 공항. 橘通り · 高千穂通에는 들어가지 않아요</li>
+      <li class="con">미야자키관광호텔(橘橋 옆)은 토 · 일 낮 행렬 바로 옆이라 이번엔 피해요</li>
+    </ul></div>
+    <div class="card"><span class="tag co" style="justify-self:start">구경하고 싶어지면</span><h3>보러 가려면</h3><ul class="pc">
+      <li class="dot"><b>일요일 13시 전후</b> 瀬頭 오타비쇼 출발 장면이 제일 가까워요. 이온몰에 차를 두고 택시로 근처까지(추정)</li>
+      <li class="dot">14~15시 橘通り 백화점 앞이 행렬이 길게 보이는 구간이에요. 대신 가장 붐벼요</li>
+      <li class="dot">30분~1시간만 보고 빠지고, 16:30 통제 해제 전까진 차로 도심에 들어가지 않기</li>
+      <li class="ask">정확한 경로 · 통제도는 <b>2027년 10월 중순</b> 미야자키 상공회의소(0985-22-2161)에 PDF로 올라와요</li>
+    </ul></div>
+  </div>
+</section>
+
+<!-- ===== 일정 ===== -->
+<section aria-labelledby="h-days">
+  <div class="sec-head"><div class="eyebrow">추천 동선</div><h2 id="h-days">날마다 이렇게 움직여요</h2>
+    <p>70세 부모님과 5살 막내가 함께라 하루에 굵직한 곳은 2~3곳만 넣었어요. 아래 휴무 달력과 축제 통제 시간에 맞춰 순서를 짰어요.</p></div>
+  <div class="mapwrap">
+    <div class="mapcol"><div class="card" style="padding:12px">
+      <svg class="coast" viewBox="0 0 280 560" role="img" aria-label="미야자키 해안 동선 약도: 북쪽 시가이아에서 남쪽 오비까지 차로 걸리는 시간">
+        <path class="sea" d="M200 0 Q180 80 195 150 Q215 230 190 300 Q170 380 195 450 Q210 510 190 560 L280 560 L280 0 Z"/>
+        <path class="wave" d="M225 60 q8 -6 16 0 t16 0"/><path class="wave" d="M220 250 q8 -6 16 0 t16 0"/><path class="wave" d="M225 430 q8 -6 16 0 t16 0"/>
+        <text class="sl" x="222" y="120">태평양</text>
+        <path class="road" d="M130 30 L120 90 L138 150 L158 210 L168 260 L162 345 L156 400 L140 500"/>
+        <path class="road2" d="M130 30 L120 90 L138 150 L158 210 L168 260 L162 345 L156 400 L140 500"/>
+        <circle class="node" cx="130" cy="30" r="8"/><text x="8" y="26">시가이아</text><text class="m" x="8" y="42">동물원 · 칠순 디너</text>
+        <circle class="node" cx="120" cy="90" r="8"/><text x="8" y="86">시내 · 이온몰</text><text class="m" x="8" y="102">시가이아 15~20분</text>
+        <circle class="node air" cx="138" cy="150" r="9"/><text x="8" y="146">미야자키공항</text><text class="m" x="8" y="162">시내 15~20분</text>
+        <circle class="node home" cx="158" cy="210" r="11"/><text x="8" y="206">아오시마 · 숙소</text><text class="m" x="8" y="222">공항 15~20분</text>
+        <circle class="node" cx="168" cy="260" r="8"/><text x="30" y="256">호리키리 고개</text><text class="m" x="30" y="272">숙소 10분</text>
+        <circle class="node" cx="162" cy="345" r="8"/><text x="22" y="341">선멧세 니치난</text><text class="m" x="22" y="357">고개 25~30분</text>
+        <circle class="node" cx="156" cy="400" r="8"/><text x="46" y="396">우도 신궁</text><text class="m" x="46" y="412">선멧세 5분</text>
+        <circle class="node" cx="140" cy="500" r="8"/><text x="30" y="496">오비 성하마을</text><text class="m" x="30" y="512">우도 30분</text>
+      </svg>
+      <p class="fine" style="text-align:center">이동 시간은 추정 · 북 → 남 한 줄 해안</p>
+    </div></div>
+    <div class="days">
+      <div class="legend-who"><span class="who all">전원</span><span class="who par">부모님</span><span class="who kid">아이들</span><span class="who car">운전</span></div>
+
+      <article class="day-card"><div class="dh"><span class="dn">1일차 · 도착, 아오시마 노을</span><span class="dd">10/29(금) · 미야자키</span></div>
+        <div class="pics"><figure><img src="img/nanban.jpg" alt="치킨난반" loading="lazy"><figcaption>치킨난반</figcaption></figure><figure><img src="img/aoshima.jpg" alt="아오시마" loading="lazy"><figcaption>아오시마</figcaption></figure><figure><img src="img/washboard.jpg" alt="도깨비 빨래판" loading="lazy"><figcaption>도깨비 빨래판</figcaption></figure></div>
+        <ol class="tl">
+          <li><span class="t">11:20</span><span class="who all">전원</span><span class="x">미야자키공항 도착 · 입국<small>작은 공항이라 30~40분이면 나와요</small></span></li>
+          <li><span class="t">12:10</span><span class="who car">운전</span><span class="x">렌터카 2대 인수 · 카시트 장착</span></li>
+          <li class="hl"><span class="t">12:50</span><span class="who all">전원</span><span class="x"><b>치킨난반 원조 '오구라' 본점</b> 점심<small>11~15시 · 화요일 휴무라 금요일이 딱. 줄 서면 4+5명으로 나눠 앉기</small></span></li>
+          <li><span class="t">14:00</span><span class="who all">전원</span><span class="x"><b>치즈만쥬 '와라베'</b> 미리 사기<small>일요일 휴무 · 일찍 품절 → 첫날이나 둘째 날에 사 둬요</small></span></li>
+          <li><span class="t">14:30</span><span class="who all">전원</span><span class="x"><b>이온몰 미야자키</b> 장보기<small>이온스타일 식품관(9~22시)에서 회 · 초밥 · 와규 · 과일 · 술 · 아침거리. 100엔숍은 캔두(2층)</small></span></li>
+          <li><span class="t">16:00</span><span class="who all">전원</span><span class="x">아오시마 독채 체크인 · 짐 풀기</span></li>
+          <li><span class="t">17:00</span><span class="who all">전원</span><span class="x"><b>아오시마 신사</b> · 도깨비 빨래판 산책<small>다리 건너 섬 한 바퀴. 17:28 일몰 노을이 하이라이트</small></span></li>
+          <li><span class="t">19:00</span><span class="who all">전원</span><span class="x">독채 파티 · 자쿠지<small>어른 몇 명은 택시로 지도리 숯불구이 원조 '마루만'(금 영업, 예약 불가) 포장해 오기도 가능</small></span></li>
+        </ol></article>
+
+      <article class="day-card"><div class="dh"><span class="dn">2일차 · 칠순 데이</span><span class="dd">10/30(토) · 미야자키</span></div>
+        <p class="theme">아침 일출, 낮 해안 드라이브, 저녁 전세 노천탕과 칠순 디너. 시내 축제(13시~, 밤 광장)와는 동선이 겹치지 않아요.</p>
+        <div class="pics"><figure><img src="img/horikiri.jpg" alt="호리키리 고개" loading="lazy"><figcaption>호리키리 고개</figcaption></figure><figure><img src="img/moai.jpg" alt="모아이" loading="lazy"><figcaption>선멧세 모아이</figcaption></figure><figure><img src="img/udo.jpg" alt="우도 신궁" loading="lazy"><figcaption>우도 신궁</figcaption></figure><figure><img src="img/obiten.jpg" alt="오비텐" loading="lazy"><figcaption>오비텐</figcaption></figure></div>
+        <ol class="tl">
+          <li class="hl"><span class="t">06:15</span><span class="who all">전원</span><span class="x"><b>집 앞 해변 칠순 일출 가족사진</b><small>06:28 해 뜸. "축 칠순" 현수막 + 숫자 풍선 70. 졸린 아이들은 잠옷 위에 겉옷만</small></span></li>
+          <li><span class="t">09:00</span><span class="who all">전원</span><span class="x"><b>호리키리 고개</b> · 미치노에키 피닉스<small>야자수 해안 전망 포인트. 망고 소프트아이스크림</small></span></li>
+          <li><span class="t">10:00</span><span class="who all">전원</span><span class="x"><b>선멧세 니치난</b> 모아이 석상<small>9:30~17:00 · 어른 1,000엔 · 수요일 휴무(토요일 OK). 언덕 위 7개 모아이 앞 단체 사진</small></span></li>
+          <li><span class="t">11:15</span><span class="who all">전원</span><span class="x"><b>우도 신궁</b> · 운다마 던지기<small>바위 동굴 속 신사. 거북바위 구멍에 운다마(5개 한 세트)를 넣으면 소원 성취. 계단 · 경사가 있어 부모님은 천천히</small></span></li>
+          <li><span class="t">12:30</span><span class="who all">전원</span><span class="x"><b>오비 성하마을</b> 점심 · 돌담길 산책<small>명물 오비텐(달콤한 어묵 튀김) '오비텐쿠라' 9:30~16시(부정기 휴무). 오비 성 정문 앞 사진</small></span></li>
+          <li><span class="t">14:30</span><span class="who par">부모님</span><span class="x">숙소에서 낮잠 · 휴식<small>아이들은 집 앞 해변에서 모래놀이</small></span></li>
+          <li class="hl"><span class="t">16:00</span><span class="who all">전원</span><span class="x"><b>호텔 아오시마 산쿠마르 전세 노천탕</b><small>전세탕 2개를 1시간씩(1,800~3,000엔, 출처마다 다름). 남자팀 · 여자팀으로 나눠 예약</small></span></li>
+          <li class="hl"><span class="t">18:00</span><span class="who all">전원</span><span class="x"><b>칠순 디너: 시가이아 '日向海(휴가미)'</b> 미야자키규 숯불 회석<small>아오시마 → 공항 → 一ツ葉 유료도로로 약 30분, 도심 안 지남. 개별실 9명 확인 필요 · 안 되면 같은 리조트 '四季乃(시키노)' 다다미 개별실</small></span></li>
+          <li><span class="t">20:30</span><span class="who car">운전</span><span class="x">대리운전(代行) 2대 불러 귀가<small>어른들 칠순 건배를 위해. 高千穂通 광장 행사(~21시) 쪽은 안 지나가요</small></span></li>
+        </ol></article>
+
+      <article class="day-card"><div class="dh"><span class="dn">3일차 · 초밥 · 동물원 → 후쿠오카</span><span class="dd">10/31(일) · 미야자키 → 후쿠오카</span></div>
+        <p class="theme">12:30~16:30 행렬이 신궁으로 돌아가는 시간이라 도심은 빼고, 남쪽 → 해안도로 → 북쪽 → 공항 순으로 돌아요.</p>
+        <div class="pics"><figure><img src="img/sushi.jpg" alt="회전초밥" loading="lazy"><figcaption>회전초밥</figcaption></figure><figure><img src="img/zoo.jpg" alt="피닉스 자연동물원" loading="lazy"><figcaption>피닉스 자연동물원</figcaption></figure><figure><img src="img/jingu.jpg" alt="미야자키 신궁 배전" loading="lazy"><figcaption>미야자키 신궁</figcaption></figure></div>
+        <ol class="tl">
+          <li><span class="t">10:00</span><span class="who all">전원</span><span class="x">독채 체크아웃 · 짐 차에 싣기</span></li>
+          <li class="hl"><span class="t">10:30</span><span class="who all">전원</span><span class="x"><b>스시로 미야자키 쓰네히사점</b> 오픈런 초밥<small>토 · 일 10:30 오픈. 앱으로 4명 + 5명 두 팀 순번 받기</small></span></li>
+          <li><span class="t">12:15</span><span class="who car">운전</span><span class="x">一ツ葉 유료도로로 북쪽 이동<small>12:30 통제 전에 도심을 이미 비켜 가요</small></span></li>
+          <li><span class="t">12:45</span><span class="who kid">아이들</span><span class="x"><b>피닉스 자연동물원</b>(9~17시, 수요일 휴원)<small>어른 840엔 · 초등 310엔 · 미취학 무료. 부모님은 그늘 벤치 휴식</small></span></li>
+          <li><span class="t">15:30</span><span class="who all">전원</span><span class="x"><b>이온몰 미야자키</b> 마지막 장보기 · 기념품<small>국내선 짐 20kg(추정)을 생각해 가볍게. 무거운 쇼핑은 후쿠오카에서</small></span></li>
+          <li><span class="t">17:45</span><span class="who car">운전</span><span class="x">해안 유료도로 남쪽 구간으로 공항 → 주유 → 반납</span></li>
+          <li><span class="t">19:00</span><span class="who all">전원</span><span class="x">짐 맡기고 공항 저녁 → <b>20:30 NH4672</b></span></li>
+          <li><span class="t">21:30</span><span class="who all">전원</span><span class="x">후쿠오카 국내선 도착 → 지하철 히가시히에역(약 5분) 또는 택시 3대<small>일요일이라 심야 연장 운행은 없지만 막차까지 여유 있어요</small></span></li>
+          <li><span class="t">22:30</span><span class="who all">전원</span><span class="x">Minn 체크인(코드 입장) · 편의점 야식</span></li>
+        </ol></article>
+
+      <article class="day-card fk"><div class="dh"><span class="dn">4일차 · 다자이후, 온천, 초밥</span><span class="dd">11/1(월) · 후쿠오카</span></div>
+        <div class="pics"><figure><img src="img/dazaifu.jpg" alt="다자이후 텐만구" loading="lazy"><figcaption>다자이후 텐만구</figcaption></figure><figure><img src="img/umegae.jpg" alt="우메가에모치" loading="lazy"><figcaption>우메가에모치</figcaption></figure><figure><img src="img/futsukaichi.jpg" alt="후츠카이치 온천 거리" loading="lazy"><figcaption>후츠카이치 온천</figcaption></figure><figure><img src="img/yatai.jpg" alt="나카스 야타이" loading="lazy"><figcaption>나카스 야타이</figcaption></figure></div>
+        <ol class="tl">
+          <li><span class="t">09:30</span><span class="who all">전원</span><span class="x"><b>다자이후 텐만구</b><small>학문의 신 → 딸 · 조카들 공부 부적. 경내는 매일 열지만 <b>보물전 · 규슈국립박물관은 월요일 휴관</b></small></span></li>
+          <li><span class="t">11:30</span><span class="who all">전원</span><span class="x">참배길에서 <b>우메가에모치</b> 맛보기</span></li>
+          <li class="hl"><span class="t">12:30</span><span class="who all">전원</span><span class="x"><b>후츠카이치 온천 '하카타유'</b><small>10~21:30 · 평일 350엔 · 개인 휴게실 1시간 600엔. JR로 하카타 15분이라 돌아오는 길에 딱</small></span></li>
+          <li><span class="t">15:00</span><span class="who kid">아이들</span><span class="x">하카타 버스터미널 5층 <b>대형 다이소</b>(9~21시)<small>규슈 최대급. 부모님은 숙소 휴식</small></span></li>
+          <li class="hl"><span class="t">17:30</span><span class="who all">전원</span><span class="x"><b>100엔대 회전초밥 원 없이</b>: 스시로 하카타역남점<small>요즘은 한 접시 120엔부터</small></span></li>
+          <li><span class="t">20:00</span><span class="who all">전원</span><span class="x"><b>돈키호테 나카스점</b>(24시간) + 나카스 야타이 구경<small>야타이는 7~10석이라 두세 곳에 나눠 한 잔 · 한 그릇만</small></span></li>
+        </ol>
+        <div class="swap">
+          <div><b>저녁을 모츠나베로</b>'이치리' 하카타 본점은 평일 17~23시, 개별실 최대 40명. 초밥을 점심으로 당기고 저녁에 모츠나베도 OK</div>
+          <div><b>꽃 좋아하시면</b>노코노시마 아일랜드파크. 늦게 피는 코스모스가 10월 말~11월 초 절정. 메이노하마항에서 배로 10분</div>
+          <div><b>온천을 제대로</b>나카가와 세이류 온천. 하카타역 무료 순환버스, 가족탕 50분 3,500엔(목요일 휴무)</div>
+        </div></article>
+
+      <article class="day-card fk"><div class="dh"><span class="dn">5일차 · 쇼핑 피날레, 귀국</span><span class="dd">11/2(화) · 후쿠오카 → 인천</span></div>
+        <div class="pics"><figure><img src="img/hakata.jpg" alt="하카타역" loading="lazy"><figcaption>하카타역</figcaption></figure><figure><img src="img/ramen.jpg" alt="돈코츠 라멘" loading="lazy"><figcaption>돈코츠 라멘</figcaption></figure><figure><img src="img/noko.jpg" alt="노코노시마 공원 풍경" loading="lazy"><figcaption>노코노시마(대안)</figcaption></figure></div>
+        <ol class="tl">
+          <li><span class="t">09:30</span><span class="who all">전원</span><span class="x">체크아웃(10시) · 짐 보관<small>Minn에 보관이 안 되면 하카타역 코인로커(대형 수량 적음)나 짐 보관 예약 서비스</small></span></li>
+          <li><span class="t">10:00</span><span class="who all">전원</span><span class="x">하카타 한큐(10~20시) · 아뮤플라자 · 캐널시티 쇼핑<small>면세는 2026-11부터 "일단 세금 내고 출국 때 환급" 방식</small></span></li>
+          <li class="hl"><span class="t">12:00</span><span class="who all">전원</span><span class="x"><b>원조 하카타 멘타이주</b><small>7~22:30 · 무휴. 시간 지정 예약 필수(순번만 받으면 150분 대기 사례)</small></span></li>
+          <li><span class="t">14:00</span><span class="who par">부모님</span><span class="x">카페 휴식 · 아이들은 마지막 가챠 · 다이소<small>라멘이 당기면 오후 2~5시 한가한 때에</small></span></li>
+          <li><span class="t">16:00</span><span class="who all">전원</span><span class="x">하카타역 근처 온천 <b>'야오지노유'</b>로 땀 씻고 비행기 타기<small>12~24시 · 1,100엔(2023 기준)</small></span></li>
+          <li><span class="t">18:00</span><span class="who all">전원</span><span class="x">짐 찾기 → 지쿠시 출구 국제선 직행버스(20~25분) 또는 택시 3대</span></li>
+          <li class="hl"><span class="t">18:30</span><span class="who all">전원</span><span class="x">국제선 도착 → <b>면세 환급 세관 확인 먼저</b> → 수하물 → 출국<small>대한항공 카운터는 출발 1시간 전(20:05) 마감. 출국장 안 푸드코트 · 면세점 넓어졌어요</small></span></li>
+          <li><span class="t">21:05</span><span class="who all">전원</span><span class="x">KE782 → 22:35 인천 도착</span></li>
+        </ol></article>
+    </div>
+  </div>
+  <div class="callout"><b>다카치호 협곡은 이번엔 빼요.</b> 보트 타는 사진으로 유명하지만 미야자키 시내에서 편도 2.5~3시간이에요. 2박 일정에 70세 부모님과 5살 막내가 함께라면 왕복 6시간 운전은 무리예요. 다음 기회에 구마모토 · 아소와 묶어서 가요.</div>
+</section>
+
+<!-- ===== 휴무 달력 ===== -->
+<section aria-labelledby="h-hol">
+  <div class="sec-head"><div class="eyebrow">식당 · 명소 휴무 달력</div><h2 id="h-hol">가는 날 문 닫으면 낭패, 한 장으로 확인</h2>
+    <p>일정에 넣은 곳과 후보를 날짜별로 정리했어요. 우리가 미야자키에 있는 날은 금 · 토 · 일, 후쿠오카는 월 · 화예요(일요일은 밤에 도착).</p></div>
+  <div class="hol-legend"><span><i class="mk o">○</i>영업</span><span><i class="mk x">×</i>정기 휴무</span><span><i class="mk q">△</i>부정기 · 미확인</span><span><i class="mk o go">○</i>우리가 가는 날</span><span><i class="mk n">—</i>그 도시에 없음</span></div>
+  <div class="tbl-wrap">
+    <table class="hol">
+      <thead><tr><th>곳</th><th class="d">금<small>10/29</small></th><th class="d">토<small>10/30</small></th><th class="d">일<small>10/31</small></th><th class="d">월<small>11/1</small></th><th class="d">화<small>11/2</small></th><th>시간 · 메모</th></tr></thead>
+      <tbody>
+        <tr class="city"><td colspan="7">미야자키</td></tr>
+        <tr><td><b>오구라 본점</b> (치킨난반)</td><td class="c"><i class="mk o go">○</i></td><td class="c"><i class="mk o">○</i></td><td class="c"><i class="mk o">○</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td>11~15 · 17~20:30<span class="sub">화요일 · 1·3주 수요일 휴무</span></td></tr>
+        <tr><td><b>마루만 야키토리 본점</b></td><td class="c"><i class="mk o go">○</i></td><td class="c"><i class="mk o">○</i></td><td class="c"><i class="mk x">×</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td>17~22 · 예약 불가<span class="sub">일요일 휴무 · 금 · 토만 가능</span></td></tr>
+        <tr><td><b>치즈만쥬 와라베</b></td><td class="c"><i class="mk o go">○</i></td><td class="c"><i class="mk o">○</i></td><td class="c"><i class="mk x">×</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td>9~17:30 · 일찍 품절<span class="sub">일요일 휴무(출처 1곳)</span></td></tr>
+        <tr><td><b>스기노코</b> (히야지루)</td><td class="c"><i class="mk o">○</i></td><td class="c"><i class="mk o">○</i></td><td class="c"><i class="mk x">×</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td>점심은 예약제 · 17:30~22<span class="sub">일요일 휴무</span></td></tr>
+        <tr><td><b>선멧세 니치난</b> (모아이)</td><td class="c"><i class="mk o">○</i></td><td class="c"><i class="mk o go">○</i></td><td class="c"><i class="mk o">○</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td>9:30~17 · 1,000엔<span class="sub">수요일 휴무</span></td></tr>
+        <tr><td><b>우도 신궁</b></td><td class="c"><i class="mk o">○</i></td><td class="c"><i class="mk o go">○</i></td><td class="c"><i class="mk o">○</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td>6~18 · 무료</td></tr>
+        <tr><td><b>오비텐쿠라</b> (오비텐)</td><td class="c"><i class="mk q">△</i></td><td class="c"><i class="mk q go">△</i></td><td class="c"><i class="mk q">△</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td>9:30~16<span class="sub">부정기 휴무</span></td></tr>
+        <tr><td><b>산쿠마르 전세 노천탕</b></td><td class="c"><i class="mk q">△</i></td><td class="c"><i class="mk q go">△</i></td><td class="c"><i class="mk q">△</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td>요금 · 휴무 미확인<span class="sub">예약 때 확인</span></td></tr>
+        <tr><td><b>시가이아 日向海 / 四季乃</b> (칠순 디너)</td><td class="c"><i class="mk q">△</i></td><td class="c"><i class="mk q go">△</i></td><td class="c"><i class="mk q">△</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td>日向海 17:30~22 · 四季乃는 10일 전 예약<span class="sub">휴무 표기 없음 → 예약으로 확정</span></td></tr>
+        <tr><td><b>스시로 쓰네히사점</b></td><td class="c"><i class="mk o">○</i></td><td class="c"><i class="mk o">○</i></td><td class="c"><i class="mk o go">○</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td>평일 11~23 · 토일 10:30~23</td></tr>
+        <tr><td><b>피닉스 자연동물원</b></td><td class="c"><i class="mk o">○</i></td><td class="c"><i class="mk o">○</i></td><td class="c"><i class="mk o go">○</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td>9~17<span class="sub">수요일 휴원</span></td></tr>
+        <tr><td><b>이온몰 미야자키</b></td><td class="c"><i class="mk o go">○</i></td><td class="c"><i class="mk o">○</i></td><td class="c"><i class="mk o go">○</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td>이온스타일 9~22 · 연중무휴</td></tr>
+        <tr class="city fk"><td colspan="7">후쿠오카</td></tr>
+        <tr><td><b>다자이후 텐만구</b></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk o go">○</i></td><td class="c"><i class="mk o">○</i></td><td>경내 6:30~19경<span class="sub">보물전 월요일 휴관</span></td></tr>
+        <tr><td><b>규슈국립박물관</b></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk x">×</i></td><td class="c"><i class="mk o">○</i></td><td>월요일 휴관<span class="sub">이번엔 안 들러요</span></td></tr>
+        <tr><td><b>후츠카이치 하카타유</b></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk o go">○</i></td><td class="c"><i class="mk o">○</i></td><td>10~21:30 · 무휴(점검일 제외)</td></tr>
+        <tr><td><b>나카가와 세이류</b> (온천)</td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk o">○</i></td><td class="c"><i class="mk o">○</i></td><td>10~22<span class="sub">목요일 휴무</span></td></tr>
+        <tr><td><b>스시로 하카타역남점</b></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk o go">○</i></td><td class="c"><i class="mk o">○</i></td><td>약 11~22:30(추정)</td></tr>
+        <tr><td><b>모츠나베 이치리 본점</b></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk o">○</i></td><td class="c"><i class="mk o">○</i></td><td><b>평일은 17~23시만</b><span class="sub">화요일 점심 불가 · 토일은 점심도</span></td></tr>
+        <tr><td><b>하나미도리</b> (미즈타키)</td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk o">○</i></td><td class="c"><i class="mk o">○</i></td><td>17~24 · 연말연시만 휴무</td></tr>
+        <tr><td><b>원조 하카타 멘타이주</b></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk o">○</i></td><td class="c"><i class="mk o go">○</i></td><td>7~22:30 · 무휴</td></tr>
+        <tr><td><b>다이소 하카타 BT</b> · <b>돈키호테 나카스</b></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk o go">○</i></td><td class="c"><i class="mk o">○</i></td><td>다이소 9~21 · 돈키 24시간</td></tr>
+        <tr><td><b>야오지노유</b> (하카타역 온천)</td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk n">—</i></td><td class="c"><i class="mk o">○</i></td><td class="c"><i class="mk o go">○</i></td><td>6:30~9:30 · 12~24 (2023 기준)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="fine">여행 기간에 일본 공휴일은 없어요(11/3 문화의 날은 귀국 다음 날). 부정기 휴무 가게는 휴무 달력을 보통 2~3개월 전에 올리니 체크리스트에 넣어 뒀어요.</p>
+</section>
+
+<!-- ===== 칠순 ===== -->
+<section aria-labelledby="h-70">
+  <div class="sec-head"><div class="eyebrow">칠순 이벤트</div><h2 id="h-70">10/30, 두 분을 위한 하루</h2>
+    <p>동갑 부부라 두 분 칠순을 한날에 같이 축하해요. 준비물은 대부분 한국에서 챙겨 가요.</p></div>
+  <div class="party">
+    <div class="pt"><span class="ic">🌅</span><b>일출 가족사진</b><p>06:28 집 앞 해변. "祝 七旬 · 축 칠순" 현수막, 금색 숫자 풍선 7 · 0, 3대 9명 맞춤 티셔츠(조부모 · 부모 · 손주 색 다르게).</p></div>
+    <div class="pt"><span class="ic">🎂</span><b>케이크 · 생일상</b><p>디너 식당에 케이크 반입 · 문구 가능한지 예약 때 문의. 안 되면 전날 이온몰 케이크로 독채에서 아침 생일상.</p></div>
+    <div class="pt"><span class="ic">💌</span><b>손주 3명의 편지</b><p>초5 · 초1 · 5살이 각자 편지와 그림을 준비해서 디너 때 낭독. 영상으로 남겨 두면 두고두고 보물이에요.</p></div>
+    <div class="pt"><span class="ic">⛩</span><b>신사에서 소원 빌기</b><p>아오시마 신사는 인연 · 부부 금슬의 신사. 우도 신궁 운다마는 부모님께 먼저 던지게 해 드려요.</p></div>
+    <div class="pt"><span class="ic">🎁</span><b>용돈 꽃다발</b><p>두 자녀 가족이 함께 준비. 아버지는 중국어에 능통하시니 한자 덕담 카드(壽 · 福)를 곁들이면 좋아해요.</p></div>
+    <div class="pt"><span class="ic">📸</span><b>여행 앨범</b><p>단톡방에 공유 앨범을 만들어 9명 사진을 모으고, 귀국 후 포토북으로 만들어 선물해요.</p></div>
+  </div>
+</section>
+
+<!-- ===== 맛집 ===== -->
+<section aria-labelledby="h-food">
+  <div class="sec-head"><div class="eyebrow">먹킷리스트</div><h2 id="h-food">여기서만 먹는 것부터</h2>
+    <p>9명이면 대부분 4명 + 5명으로 나눠 앉아요. 코랄 테두리는 일정에 이미 넣은 곳이에요. 사진은 그 음식의 예시예요(가게 사진 아님).</p></div>
+  <div class="tabs" role="group" aria-label="도시 고르기">
+    <button class="seg-btn" type="button" data-food="m" aria-pressed="true">미야자키</button>
+    <button class="seg-btn" type="button" data-food="f" aria-pressed="false">후쿠오카</button>
+  </div>
+  <div class="foods" data-food-panel="m">
+    <div class="food must"><img class="fimg" src="img/nanban.jpg" alt="치킨난반" loading="lazy"><div class="fb"><div class="fh"><b>치킨난반 오구라 본점</b><span class="jp">おぐら 本店</span></div><p>새콤한 닭튀김에 타르타르를 올린 치킨난반의 원조. 11~15시 · 17~20:30, 화요일 · 1·3주 수요일 휴무.</p><div class="tags"><span class="tag co">1일차 점심</span><span class="tag">줄 서요</span></div></div></div>
+    <div class="food must"><img class="fimg" src="img/wagyu.jpg" alt="미야자키규" loading="lazy"><div class="fb"><div class="fh"><b>칠순 디너: 日向海 (휴가미)</b><span class="jp">シーガイア 日本料理</span></div><p>시가이아 오션타워 일식당. 회석 9,900엔(미야자키규 로스 숯불) · 15,000엔(필레 숯불). 개별실 9명 가능한지 전화 확인. 안 되면 '四季乃' 다다미 개별실(24첩~, 9,900엔~, 10일 전 예약).</p><div class="tags"><span class="tag co">2일차 저녁</span><span class="tag warn">예약 필수</span></div></div></div>
+    <div class="food"><div class="fimg emo" aria-hidden="true">🍢</div><div class="fb"><div class="fh"><b>마루만 야키토리 본점</b><span class="jp">丸万焼鳥 本店</span></div><p>미야자키 지도리(토종닭) 숯불구이 원조. 17~22시, <b>일요일 휴무</b>, 예약 불가. 1일차 밤 포장이나 어른만 택시로.</p><div class="tags"><span class="tag warn">금 · 토만</span><span class="tag">어른 술안주</span></div></div></div>
+    <div class="food"><img class="fimg" src="img/karamen.jpg" alt="가라멘" loading="lazy"><div class="fb"><div class="fh"><b>가라멘 (매운 라멘)</b><span class="jp">辛麺屋 桝元</span></div><p>고춧가루 · 마늘 · 달걀을 풀어 넣은 미야자키식 매운 라멘. 맵기 단계 선택. 본점은 노베오카라 시내 지점으로.</p><div class="tags"><span class="tag">맵기 선택</span></div></div></div>
+    <div class="food"><img class="fimg" src="img/hiyajiru.jpg" alt="히야지루 정식" loading="lazy"><div class="fb"><div class="fh"><b>히야지루 '스기노코'</b><span class="jp">ふるさと料理 杉の子</span></div><p>차가운 된장국을 밥에 부어 먹는 향토 음식. 점심은 예약제, <b>일요일 휴무</b>.</p><div class="tags"><span class="tag">부모님 취향</span><span class="tag warn">일요일 휴무</span></div></div></div>
+    <div class="food must"><img class="fimg" src="img/sushi.jpg" alt="회전초밥" loading="lazy"><div class="fb"><div class="fh"><b>100엔대 초밥 3대장</b><span class="jp">スシロー · はま寿司 · くら寿司</span></div><p>스시로 쓰네히사점(토일 10:30 오픈) · 하마스시 신벳푸점(이온몰 쪽) · 쿠라스시 니토리몰점.</p><div class="tags"><span class="tag co">3일차 아침 겸 점심</span><span class="tag">앱 순번</span></div></div></div>
+    <div class="food must"><img class="fimg" src="img/obiten.jpg" alt="오비텐" loading="lazy"><div class="fb"><div class="fh"><b>오비텐</b><span class="jp">飫肥天</span></div><p>오비 성하마을 명물. 두부 · 흑설탕이 들어가 달콤한 어묵 튀김. 아이들도 좋아해요. 오비텐쿠라 9:30~16시.</p><div class="tags"><span class="tag co">2일차 점심</span></div></div></div>
+    <div class="food"><div class="fimg emo" aria-hidden="true">🧀</div><div class="fb"><div class="fh"><b>치즈만쥬 와라베</b><span class="jp">チーズ饅頭工房 わらべ</span></div><p>미야자키 국민 간식. 그날 만든 만큼만 팔아 저녁 전 품절이 많고, <b>일요일 휴무</b>예요. 첫날 사 두기.</p><div class="tags"><span class="tag co">1일차</span><span class="tag">기념품</span></div></div></div>
+  </div>
+  <div class="foods" data-food-panel="f" hidden>
+    <div class="food must"><img class="fimg" src="img/sushi.jpg" alt="회전초밥" loading="lazy"><div class="fb"><div class="fh"><b>스시로 하카타역남점</b><span class="jp">スシロー 博多駅南店</span></div><p>원 없이 초밥 먹는 날. 한 접시 120엔부터. 근처 하마스시 하카타 · 지요점, 나카스엔 쿠라스시(돈키호테랑 묶기).</p><div class="tags"><span class="tag co">4일차 저녁</span><span class="tag">앱 순번</span></div></div></div>
+    <div class="food must"><div class="fimg emo" aria-hidden="true">🍱</div><div class="fb"><div class="fh"><b>원조 하카타 멘타이주</b><span class="jp">元祖博多めんたい重</span></div><p>명란을 통째로 올린 덮밥. 7~22:30 · 무휴, 시간 지정 예약 가능. 순번만 받으면 2시간 넘게 기다릴 수도.</p><div class="tags"><span class="tag co">5일차 점심</span><span class="tag warn">예약</span></div></div></div>
+    <div class="food"><img class="fimg" src="img/motsunabe.jpg" alt="모츠나베" loading="lazy"><div class="fb"><div class="fh"><b>모츠나베 이치리 본점</b><span class="jp">一利 博多本店</span></div><p>하카타역 3분, 개별실 최대 40명. <b>평일은 17~23시만</b>(토일은 점심도). 근처 '후쿠마루'도 다다미방 있어요.</p><div class="tags"><span class="tag ok">개별실</span><span class="tag warn">평일 저녁만</span></div></div></div>
+    <div class="food"><div class="fimg emo" aria-hidden="true">🍲</div><div class="fb"><div class="fh"><b>미즈타키 하나미도리 나카스본점</b><span class="jp">博多華味鳥</span></div><p>뽀얀 닭 육수 전골. 17~24시, 아이 동반 OK, 개별실 여러 개(2025-10 리뉴얼). '도리덴'은 아이 동반에 불리해요.</p><div class="tags"><span class="tag ok">아이 OK</span><span class="tag">부모님 취향</span></div></div></div>
+    <div class="food"><div class="fimg emo" aria-hidden="true">🐟</div><div class="fb"><div class="fh"><b>멘타이코 무한 '기스이마루'</b><span class="jp">喜水丸</span></div><p>하카타역 데이토스 안. 정식을 시키면 명란을 마음껏. 2,390엔부터. 멘타이주가 만석이면 여기로(영업시간 확인 필요).</p><div class="tags"><span class="tag">하카타역 안</span></div></div></div>
+    <div class="food"><img class="fimg" src="img/ramen.jpg" alt="돈코츠 라멘" loading="lazy"><div class="fb"><div class="fh"><b>하카타 라멘</b><span class="jp">一蘭 · 一風堂 · ShinShin</span></div><p>예약이 안 돼요. 9명이면 나눠 앉을 각오로 오후 2~5시 한가한 때에. 출국장 안 푸드코트에도 라멘이 있어요.</p><div class="tags"><span class="tag">간식 타이밍</span></div></div></div>
+    <div class="food"><img class="fimg" src="img/yatai.jpg" alt="나카스 야타이" loading="lazy"><div class="fb"><div class="fh"><b>나카스 야타이</b><span class="jp">屋台</span></div><p>강가 포장마차. 가게마다 7~10석이라 9명은 두세 곳에 나눠 한 잔씩만. 식사는 다른 곳에서.</p><div class="tags"><span class="tag">분위기</span></div></div></div>
+    <div class="food"><img class="fimg" src="img/umegae.jpg" alt="우메가에모치" loading="lazy"><div class="fb"><div class="fh"><b>우메가에모치</b><span class="jp">梅ヶ枝餅</span></div><p>다자이후 참배길 명물. 팥소를 넣고 구운 찹쌀떡. 갓 구운 따끈한 걸로 하나씩.</p><div class="tags"><span class="tag co">4일차</span></div></div></div>
+  </div>
+</section>
+
+<!-- ===== 쇼핑 온천 ===== -->
+<section aria-labelledby="h-shop">
+  <div class="sec-head"><div class="eyebrow">쇼핑 · 온천 지도</div><h2 id="h-shop">마트 · 다이소 · 온천, 어디가 가까울까</h2></div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>도시</th><th>곳</th><th>무엇</th><th>시간 · 요금</th><th>메모</th></tr></thead>
+      <tbody>
+        <tr><td>미야자키</td><td><b>이온몰 미야자키</b></td><td>대형마트 · 몰 · 캔두</td><td>이온스타일 9~22시 · 연중무휴</td><td>공항에서 약 20분. 장보기 본거지</td></tr>
+        <tr><td>미야자키</td><td><b>호텔 아오시마 산쿠마르</b></td><td>전세 노천탕 2개</td><td>1시간 1,800~3,000엔(출처마다 다름)</td><td>아오시마역 3분 · 독채 호스트 추천</td></tr>
+        <tr><td>미야자키</td><td><b>시가이아 쇼센큐 '쓰쿠요미'</b></td><td>리조트 온천</td><td>콘도 투숙객 1,100엔 · 6~23:30</td><td>전세탕 '하나레유' 60분 6,000엔(4명)</td></tr>
+        <tr><td>후쿠오카</td><td><b>다이소 하카타 버스터미널</b></td><td>규슈 최대급 다이소</td><td>9~21시</td><td>스탠다드 프로덕츠 · 쓰리피 같이</td></tr>
+        <tr><td>후쿠오카</td><td><b>돈키호테 나카스</b></td><td>잡화 · 과자 · 화장품</td><td>24시간</td><td>나카스카와바타역 연결 · 면세 환급 수수료 무료 발표</td></tr>
+        <tr><td>후쿠오카</td><td><b>맥스밸류 익스프레스 하카타역남</b></td><td>마트</td><td>9~24시</td><td>역에서 약 1.8km · 숙소 야식 · 아침거리</td></tr>
+        <tr><td>후쿠오카</td><td><b>미스터맥스 셀렉트 미노시마</b></td><td>할인마트</td><td>24시간</td><td>히가시히에역 약 1.6km</td></tr>
+        <tr><td>후쿠오카</td><td><b>후츠카이치 온천 하카타유</b></td><td>당일 온천</td><td>평일 350엔 · 휴게실 1시간 600엔</td><td>다자이후와 묶기</td></tr>
+        <tr><td>후쿠오카</td><td><b>나카가와 세이류</b></td><td>산속 온천 · 가족탕</td><td>평일 1,400엔 · 가족탕 50분 3,500엔</td><td>하카타역 무료 순환버스 · 목요일 휴무</td></tr>
+        <tr><td>후쿠오카</td><td><b>야오지노유</b></td><td>역 근처 천연온천</td><td>1,100엔 · 12~24시</td><td>출국 전 샤워 겸</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="fine">히가시히에의 '만요노유'는 문을 닫았어요. 2027-04에 미쓰이 아울렛 파크 후쿠오카 마리노아(약 220개 매장)가 새로 열 예정이라, 쇼핑 욕심이 나면 5일차 오전 후보로 넣어요(메이노하마역에서 버스 10분).</p>
+</section>
+
+<!-- ===== 팁 ===== -->
+<section aria-labelledby="h-tips">
+  <div class="sec-head"><div class="eyebrow">알아두면 좋은 것</div><h2 id="h-tips">여행 고수에게도 새로운 팁</h2></div>
+  <div class="qa">
+    <details open><summary>국내선 짐이 국제선보다 빡빡해요</summary><div class="ans"><p>NH4672는 74석 정도의 프로펠러기(DH4)예요. ANA 국내선은 보통 위탁 1인 20kg(추정)이고, 기내 가방은 45×35×20cm · 10kg 정도예요. 기체가 작아서 큰 캐리어는 실을 수 없을 때도 있어요.</p><ul><li>미야자키에서는 먹을 것 위주로 사고, 쇼핑은 후쿠오카에서 해요(국제선은 23kg).</li><li>9명 짐을 합쳐서 계산하니까, 가벼운 사람 짐에 나눠 담으면 돼요.</li></ul></div></details>
+    <details><summary>면세가 바뀌었어요: 2026-11부터 "환급 방식"</summary><div class="ans"><p>이제 가게에서는 세금 포함 가격으로 사요. 출국할 때 세관 단말기에 여권을 대면 소비세를 돌려받아요. 한 가게 하루 5,000엔(세전) 이상이 조건이에요.</p><ul><li>세관에서 물건을 보여 달라고 할 수 있어요. <b>면세품은 꺼내기 쉬운 가방에</b> 넣고 수하물 맡기기 전에 세관부터 가요.</li><li>환급 수수료는 가게마다 달라요. 돈키호테는 무료라고 발표했어요.</li></ul></div></details>
+    <details><summary>9명이 식당에 들어가는 요령</summary><div class="ans"><ul><li>회전초밥은 앱(스시로 · 하마 · 쿠라)으로 <b>4명 + 5명</b> 두 팀 순번을 따로 받아요. 테이블 하나보다 훨씬 빨라요.</li><li>모츠나베 · 미즈타키 · 칠순 디너처럼 앉아서 먹는 곳은 개별실을 미리 예약해요.</li><li>마트 반찬은 저녁 7~8시쯤 "半額(반값)" 스티커가 붙어요. 독채 파티 장보기는 이 시간이 이득이에요.</li></ul></div></details>
+    <details><summary>일본 운전, 이것만 기억해요</summary><div class="ans"><ul><li>좌측통행, 오른쪽 핸들. 깜빡이와 와이퍼 레버가 반대라 처음엔 와이퍼가 자주 켜져요.</li><li>"止まれ(멈춤)" 표지에서는 무조건 완전 정지해요. 철도 건널목도 일단 정지해요.</li><li>술을 마신 날은 일본에서 흔한 <b>운전대행(代行)</b> 서비스를 부르거나 택시를 타요. 칠순 디너 날 추천이에요.</li><li>주차장 입구의 <b>高さ制限(높이 제한)</b> 숫자를 확인해요. 미니밴은 2.0m 이상이면 OK.</li><li>렌터카는 기름을 가득 채워 반납해요. 공항 근처 주유소는 일찍 닫을 수 있으니 미리 위치를 확인해요.</li></ul></div></details>
+    <details><summary>아이들 · 부모님 챙길 것</summary><div class="ans"><ul><li>둘째 조카(만 5세)는 차일드시트 법적 의무예요. 렌터카 예약 때 꼭 같이 신청해요.</li><li>우도 신궁은 해안 절벽 계단이 있어요. 부모님은 천천히, 막내는 안고 가요.</li><li>10월 말 미야자키는 낮엔 반팔도 되지만 일출 시간과 저녁 해변은 쌀쌀해요. 얇은 겉옷을 챙겨요.</li><li>독채 자쿠지는 아이들만 두지 않기.</li></ul></div></details>
+    <details><summary>서류 · 결제 · 통신</summary><div class="ans"><ul><li>여권 9개 유효기간을 확인해요. 아이들 5년 여권은 만료가 빨라요.</li><li><b>Visit Japan Web</b>에 9명 입국 정보를 넣고 QR을 캡처해 둬요(인천→미야자키 입국 때 사용).</li><li>JESTA(일본판 사전 입국 허가)는 2028년 도입이 목표라 2027년엔 필요 없을 가능성이 커요. 출발 전에 한 번 확인해요.</li><li>트래블카드와 엔화 현금을 조금 챙겨요. Minn은 현금이 안 되고, 시골 식당 · 온천은 현금만 받는 곳도 있어요.</li><li>eSIM은 어른 6명. 아이들은 와이파이로 충분해요.</li><li>일본 출국세 3,000엔(2026-07부터)은 항공권에 이미 들어 있어요.</li></ul></div></details>
+    <details><summary>아버지 중국어가 의외로 쓸모 있어요</summary><div class="ans"><p>일본 메뉴판 · 표지판에는 한자가 많아요. "冷汁(히야지루)", "地鶏(지도리)", "辛麺(가라멘)"처럼 한자만 읽어도 뜻이 보여요. 후쿠오카에는 중국어권 관광객과 중국어 안내도 많아서, 아버지가 활약하실 장면이 꽤 나와요.</p></div></details>
+  </div>
+</section>
+
+<!-- ===== 계산기 ===== -->
+<section aria-labelledby="h-calc">
+  <div class="sec-head"><div class="eyebrow">경비</div><h2 id="h-calc">9명 총경비 계산기</h2>
+    <p>숙소 · 렌터카 · 환율을 바꾸면 바로 다시 계산해요. 이미 결제한 항공권은 금액을 넣으면 합쳐져요. 현지 비용은 2026년 조사값과 추정 단가예요. 쇼핑은 빠져 있어요.</p></div>
+  <div class="calc">
+    <form class="calc-form" id="calcForm">
+      <div class="fld"><label for="stay">미야자키 숙소 (2박)</label>
+        <select id="stay"><option value="A" selected>바다 앞 독채 · 150만</option><option value="C">시가이아 콘도 · 추정 18만엔</option><option value="B">ANA 홀리데이 인 · 103만</option></select></div>
+      <div class="fld"><label for="car">렌터카 (3일)</label>
+        <select id="car"><option value="noah2" selected>미니밴 2대 (노아급)</option><option value="alph">알파드 + 노아</option><option value="hiace">하이에이스 10인승 1대</option></select></div>
+      <div class="fld"><label for="air">항공권 3구간 합계, 9명 (만원)</label><input type="number" id="air" value="0" min="0" max="2000" step="10"></div>
+      <div class="fld"><label for="fx">환율 (100엔당 원)</label><input type="number" id="fx" value="900" min="600" max="1400" step="10"></div>
+      <div class="fld"><label for="splitMode">나눠 내기</label>
+        <select id="splitMode"><option value="two" selected>두 자녀 가족이 반반 (부모님 초대)</option><option value="head">세 가족이 인원수대로</option><option value="three">세 가족이 똑같이</option></select></div>
+      <label class="chk" for="dinner"><input type="checkbox" id="dinner" checked><span>칠순 디너 미야자키규 회석<small>어른 1.2만엔 × 6 + 아이 4천엔 × 3 + 개별실료 (추정)</small></span></label>
+      <label class="chk" for="party"><input type="checkbox" id="party" checked><span>칠순 이벤트 준비물<small>현수막 · 풍선 · 티셔츠 · 케이크 · 꽃 약 25만원</small></span></label>
+    </form>
+    <div class="calc-out" aria-live="polite">
+      <div class="total"><b class="num" id="tot">—</b><span id="per">—</span></div>
+      <div class="cbar" id="cbar"></div>
+      <div class="cleg" id="cleg"></div>
+      <div class="split" id="split"></div>
+      <table class="brk" id="brk"></table>
+      <p class="fine" id="note"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 체크리스트 ===== -->
+<section aria-labelledby="h-todo">
+  <div class="sec-head"><div class="eyebrow">준비 일정</div><h2 id="h-todo">지금부터 출발까지, 이 순서로</h2>
+    <p>체크하면 이 브라우저에 저장돼요. 숙소 취소 기한은 예약마다 달라서, 확인하는 대로 달력에 넣어 두세요.</p></div>
+  <div class="todo-progress"><div class="tp-bar"><div id="tpFill"></div></div><span id="tpText" class="num">0 / 0</span></div>
+  <div class="phases" id="todo">
+    <div class="phase"><div class="ph-head"><b>지금 ~ 2027 봄</b><span>숙소 정리</span></div>
+      <label class="todo"><input type="checkbox" id="t-host"><span class="td-body"><b>에어비앤비 호스트에게 질문 3개</b><small>주차 2대 · 1층 침실 · 체크인 시각. 답이 별로면 시가이아 콘도 알아보기</small></span></label>
+      <label class="todo"><input type="checkbox" id="t-cancel"><span class="td-body"><b>숙소 3곳 무료 취소 기한을 달력에 등록</b><small>에어비앤비 · 아고다(ANA) · 아고다(Minn)</small></span></label>
+      <label class="todo"><input type="checkbox" id="t-ana"><span class="td-body"><b>ANA 홀리데이 인 취소</b><small>독채 확정 뒤, 취소 기한 안에</small></span></label>
+      <label class="todo"><input type="checkbox" id="t-minn"><span class="td-body"><b>Minn 방 3개 → 모더레이트(이층침대 없음)로</b><small>안 되면 Hotel Iori 로열E(10명 한 방) + 늦은 도착 협의. 체크아웃 후 짐 보관도 문의</small></span></label>
+      <label class="todo"><input type="checkbox" id="t-pass"><span class="td-body"><b>여권 9개 유효기간 확인</b><small>아이들 5년 여권 특히</small></span></label>
+    </div>
+    <div class="phase"><div class="ph-head"><b>출발 6~3개월 전</b><span>2027년 5~7월</span></div>
+      <label class="todo"><input type="checkbox" id="t-car"><span class="td-body"><b>렌터카 2대 예약</b><small>미야자키공항 10/29 12시 → 10/31 18시. 차일드시트 + 주니어시트, 운전자 4명 등록</small></span></label>
+      <label class="todo"><input type="checkbox" id="t-fest"><span class="td-body"><b>진무사마 2027 날짜 확인</b><small>여름쯤 미야자키 신궁 · 시청 발표. 10/30~31이 맞는지</small></span></label>
+      <label class="todo"><input type="checkbox" id="t-ins"><span class="td-body"><b>여행자보험 9명</b><small>부모님 연령 · 렌터카 사고 특약 확인</small></span></label>
+      <label class="todo"><input type="checkbox" id="t-holi"><span class="td-body"><b>부정기 휴무 가게 달력 확인</b><small>오비텐쿠라 · 미야치쿠 등 2027-10 휴무일 공지</small></span></label>
+    </div>
+    <div class="phase"><div class="ph-head"><b>출발 1개월 전</b><span>2027년 9월 말</span></div>
+      <label class="todo"><input type="checkbox" id="t-dinner"><span class="td-body"><b>칠순 디너 예약</b><small>시가이아 日向海(개별실 9명 확인) 또는 四季乃(10일 전 마감). 10/30 18시 · 케이크 반입 · 아이 메뉴</small></span></label>
+      <label class="todo"><input type="checkbox" id="t-onsen"><span class="td-body"><b>산쿠마르 전세 노천탕 예약</b><small>10/30 16시 · 2실 · 요금 확인</small></span></label>
+      <label class="todo"><input type="checkbox" id="t-idp"><span class="td-body"><b>국제운전면허증 발급</b><small>운전자 4명 · 경찰서나 면허시험장에서 당일 발급</small></span></label>
+      <label class="todo"><input type="checkbox" id="t-goods"><span class="td-body"><b>칠순 준비물 주문</b><small>현수막 · 숫자 풍선 · 가족 티셔츠 · 손주 편지</small></span></label>
+      <label class="todo"><input type="checkbox" id="t-rest"><span class="td-body"><b>후쿠오카 식당 예약</b><small>원조 멘타이주(11/2 12시) · 모츠나베 이치리(원하면 11/1 저녁)</small></span></label>
+      <label class="todo"><input type="checkbox" id="t-app"><span class="td-body"><b>앱 설치</b><small>스시로 · 하마스시 · 쿠라스시 · 구글맵 오프라인 지도</small></span></label>
+    </div>
+    <div class="phase"><div class="ph-head"><b>출발 2주 ~ 1주 전</b><span>2027년 10월 중순</span></div>
+      <label class="todo"><input type="checkbox" id="t-map"><span class="td-body"><b>축제 교통 통제도 PDF 확인</b><small>미야자키 상공회의소 사이트 · 행렬 경로와 시간이 이 판과 같은지</small></span></label>
+      <label class="todo"><input type="checkbox" id="t-vjw"><span class="td-body"><b>Visit Japan Web 9명 등록</b><small>QR 캡처해서 단톡방에 공유</small></span></label>
+      <label class="todo"><input type="checkbox" id="t-photo"><span class="td-body"><b>에어비앤비 여권 사진 제출</b><small>체크인 전날까지 전원</small></span></label>
+      <label class="todo"><input type="checkbox" id="t-bag"><span class="td-body"><b>짐 무게 맞추기</b><small>국내선 20kg 기준(추정) · 큰 캐리어는 가족당 하나로</small></span></label>
+      <label class="todo"><input type="checkbox" id="t-cash"><span class="td-body"><b>트래블카드 · 엔화 · eSIM</b><small>온천 · 시골 식당용 현금 조금</small></span></label>
+      <label class="todo"><input type="checkbox" id="t-code"><span class="td-body"><b>Minn 출입 코드 메일 확인</b><small>10/30 밤에 와요. 미야자키에서 확인</small></span></label>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>정보 출처 (2026-11-22 조사 · 2027년 요금 · 일정은 바뀔 수 있어요)</div>
+  <ul>
+    <li><a href="https://www.ihg.com/hotels/gb/en/miyazaki/kmihi/hoteldetail">ANA 홀리데이 인 미야자키</a></li>
+    <li><a href="https://yado.knt.co.jp/st/S450027/?fgid=a0250">ANA 홀리데이 인 온천 공지</a></li>
+    <li><a href="https://seagaia.co.jp/hotel/forest-condominiums/">시가이아 포레스트 콘도</a></li>
+    <li><a href="https://seagaia.co.jp/restaurant/">시가이아 레스토랑</a></li>
+    <li><a href="https://himuka.seagaia.co.jp/menu/">日向海 메뉴</a></li>
+    <li><a href="https://staytuned.asia/en/brands/minn/hotels/minn_hakata_station_east">Minn 하카타 스테이션 이스트</a></li>
+    <li><a href="https://www.jalan.net/yad319875/">Hotel Iori</a></li>
+    <li><a href="https://rent.toyota.co.jp/global_ko/guide/">토요타렌터카 한국어</a></li>
+    <li><a href="https://www.npa.go.jp/bureau/traffic/anzen/childseat.html">일본 경찰청 차일드시트</a></li>
+    <li><a href="https://eco.mtk.nao.ac.jp/koyomi/dni/2027/s4610.html">국립천문대 일출 · 일몰</a></li>
+    <li><a href="https://miyazaki.8agarage.co.jp/jinmusama-2026-traffic/">진무사마 통제 정리</a></li>
+    <li><a href="https://www.miyakoh.co.jp/bypass/mediafile/c258601de82ad5784bd717fc025fbd4a152f81f4.pdf">2025 버스 우회 안내</a></li>
+    <li><a href="https://rurubu.jp/andmore/spot/80041311">오구라 본점</a></li>
+    <li><a href="https://rurubu.jp/andmore/spot/80041266">마루만 야키토리</a></li>
+    <li><a href="https://rurubu.jp/andmore/spot/80041300">치즈만쥬 와라베</a></li>
+    <li><a href="https://miyazaki.aeonmall.jp/">이온몰 미야자키</a></li>
+    <li><a href="https://www.miyazaki-city-zoo.jp">피닉스 자연동물원</a></li>
+    <li><a href="https://toyota.jp/pages/contents/noah/004_p_001/pdf/welcab/liftup/spec_202605.pdf">노아 제원</a></li>
+    <li><a href="https://www.ana.co.jp/ja/jp/book-plan/airinfo/codeshare/domestic/detail/oc.html">ANA · ORC 수하물</a></li>
+    <li><a href="https://www.mlit.go.jp/kankocho/tax-free/page01_000001_00021.html">일본 면세 리펀드(관광청)</a></li>
+    <li><a href="https://rurubu.jp/andmore/spot/80090628">다이소 하카타</a></li>
+    <li><a href="https://www.crossroadfukuoka.jp/spot/10233">후츠카이치 하카타유</a></li>
+    <li><a href="https://r.gnavi.co.jp/nywurt1e0000">모츠나베 이치리</a></li>
+    <li><a href="https://www.koreanair.com/contents/plan-your-travel/check-in/counter-check-in/airport-counter?hl=ja">대한항공 카운터 마감</a></li>
+  </ul>
+  <details><summary>사진 출처 (위키미디어 공용 · 자유 라이선스)</summary>
+    <ul>
+<li><a href="https://commons.wikimedia.org/wiki/File:2021-01-07_Aoshima_Island_(Miyazaki)%E9%9D%92%E5%B3%B6_(%E5%AE%AE%E5%B4%8E%E7%9C%8C)DJI_0255_(2)%E7%A9%BA%E6%92%AE.jpg">아오시마 항공사진</a> · 松岡明芳 · CC BY-SA 4.0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:Ogre%27s_Washboards_of_Aoshima_Island_14.jpg">도깨비 빨래판</a> · そらみみ · CC BY-SA 4.0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:Udo-jingu_Main_hall_001.jpg">우도 신궁</a> · Naokijp · CC BY-SA 4.0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:%E6%97%A5%E5%8D%97%E5%A4%AA%E9%98%B3%E8%8A%B1%E5%9B%AD%E6%91%A9%E8%89%BE%E7%9F%B3%E5%83%8F.jpg">선멧세 모아이</a> · Cukieiris · CC0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:Horikiri_Pass_Miyazaki_2016.JPG">호리키리 고개</a> · ja:User:Sanjo · CC BY-SA 3.0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:Aerial_View_of_Seagaia_Resort_in_Miyazaki,_Japan.jpg">시가이아 리조트</a> · Kenichiro MATOHARA · CC BY 2.0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:Miyazaki_Miyazaki-jingu_Haiden_1.JPG">미야자키 신궁</a> · 京浜にけ · CC BY-SA 3.0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:Chicken_Nanban_-_Korpan_2024-12-05.jpg">치킨난반</a> · Andy Li · CC0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:Miyazaki_Beef_rib.jpg">미야자키규</a> · Miyuki Meinaka · CC BY-SA 4.0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:12_2%E5%A4%95%E9%A3%9F%EF%BC%88%E5%86%B7%E3%82%84%E6%B1%81%E5%AE%9A%E9%A3%9F%EF%BC%89_(2097833934).jpg">히야지루 정식</a> · Yamaguchi Yoshiaki from Japan · CC BY-SA 2.0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:NGO_Kita_Machikado-ya_Miyazaki_Karamen_20221016-01.jpg">가라멘</a> · 円周率３パーセント · CC BY-SA 4.0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:%E3%81%8A%E3%81%B3%E5%A4%A9.jpg">오비텐</a> · [puamelia] · CC BY-SA 2.0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:Sushi_train.jpg">회전초밥</a> · ben britten · CC BY 2.0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:20100719_Dazaifu_Tenmangu_Shrine_3328.jpg">다자이후 텐만구</a> · Jakub Hałun · CC BY-SA 4.0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:Motsunabe.jpg">모츠나베</a> · w:ja:利用者:Hykw-a4 · CC BY-SA 3.0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:Tonkotsu_Ramen_-_Goemon_Ramen_Bar_2023-06-06.jpg">돈코츠 라멘</a> · Andy Li · CC0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:Nakasu_Yatai_Stalls_(19979437930).jpg">나카스 야타이</a> · Yoshikazu TAKADA from Tokyo, Japan · CC BY 2.0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:Views_in_Nokonoshima_Island_Park_7.jpg">노코노시마</a> · そらみみ · CC BY-SA 4.0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:Phoenix_zoological_garden.JPG">피닉스 자연동물원</a> · Snap55 · CC BY 3.0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:2022_Toyota_Noah_X.jpg">토요타 노아</a> · TTTNIS · CC0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:TOYOTA_ALPHARD_(AH30)_China_(40).jpg">토요타 알파드</a> · Dinkun Chen · CC BY-SA 4.0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:Toyota_Hiace_Grand_Cabin_in_Namba,_Osaka_-_Japan_(54445675983).jpg">하이에이스 그랜드캐빈</a> · Umedha Hettigoda · CC BY-SA 2.0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:Umegaemochi_in_Dazaifu.jpg">우메가에모치</a> · Kyoww · Public domain</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:Sagita_River_in_Futsukaichi_Onsen.jpg">후츠카이치 온천</a> · STA3816 · CC BY-SA 4.0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:Route220_Nichinan_Coast_01.JPG">니치난 해안</a> · ja:User:Sanjo · CC BY-SA 3.0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:Miyazaki_Shrine_Grand_Festival_in_2008_Gohouren_01.jpg">신궁대제 행렬(2008)</a> · ja:User:Sanjo · Public domain</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:Miyazaki_Shrine_Oyodo_Otabisho_2022.jpg">오요도 오타비쇼</a> · Sanjo · CC BY-SA 4.0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:Hakata_Station_20180306.jpg">하카타역</a> · そらみみ · CC BY-SA 4.0</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:Obi,_Nichinan,_%C5%8Ctemon_Gate_of_Obi_Castle_01.jpg">오비 성</a> · Naokijp · CC BY-SA 4.0</li>
+    </ul>
+  </details>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  try{
+    const dep = new Date(2027,9,29), now = new Date(); now.setHours(0,0,0,0);
+    const d = Math.round((dep - now)/86400000);
+    $('dday').textContent = d > 0 ? 'D-'+d : (d === 0 ? 'D-DAY!' : '다녀왔어요');
+  }catch(e){}
+
+  const stayBtns = [...document.querySelectorAll('[data-stay]')];
+  function showStay(v){
+    stayBtns.forEach(b => b.setAttribute('aria-pressed', b.dataset.stay === v ? 'true' : 'false'));
+    document.querySelectorAll('[data-stay-panel]').forEach(p => { p.hidden = p.dataset.stayPanel !== v; });
+    try{ localStorage.setItem('chilsun-stay', v); }catch(e){}
+  }
+  stayBtns.forEach(b => b.addEventListener('click', () => { $('stay').value = b.dataset.stay; showStay(b.dataset.stay); calc(); }));
+
+  const foodBtns = [...document.querySelectorAll('[data-food]')];
+  foodBtns.forEach(b => b.addEventListener('click', () => {
+    foodBtns.forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+    document.querySelectorAll('[data-food-panel]').forEach(p => { p.hidden = p.dataset.foodPanel !== b.dataset.food; });
+  }));
+
+  const STAY = {A:{w:1500000, nm:'바다 앞 독채 2박'}, C:{y:180000, nm:'시가이아 콘도 4베드 2박(추정)'}, B:{w:1030000, nm:'ANA 홀리데이 인 방 2개 2박'}};
+  const CAR = {
+    noah2:{y:103400+9900+2200+12000, nm:'노아급 2대 3일 + 면책 + 시트 + 기름'},
+    alph:{y:116600+9900+2200+12000, nm:'알파드 + 노아 3일 + 면책 + 시트 + 기름'},
+    hiace:{y:72380+4950+2200+6000, nm:'하이에이스 1대 3일 + 면책 + 시트 + 기름 (공항점 재고 미확인)'}
+  };
+  const man = v => Math.round(v/10000).toLocaleString('ko-KR')+'만';
+  const man1 = v => (Math.round(v/1000)/10).toLocaleString('ko-KR',{maximumFractionDigits:1})+'만';
+  function calc(){
+    const fx = (+$('fx').value || 900)/100;
+    const Y = v => v*fx;
+    const st = STAY[$('stay').value] || STAY.A, car = CAR[$('car').value];
+    const air = (+$('air').value || 0)*10000;
+    const rows = [];
+    if(air > 0) rows.push(['항공권 3구간 9명', air, '입력한 결제 금액', 'c1', 1]);
+    rows.push(['미야자키 숙소', st.w || Y(st.y), st.nm, 'c2']);
+    rows.push(['후쿠오카 숙소', 1300000, 'Minn 방 3개 2박', 'c2']);
+    rows.push(['렌터카', Y(car.y), car.nm, 'c3']);
+    rows.push(['후쿠오카 교통', Y(32000), '도착 · 출국 택시 · 지하철 · 버스 · JR 9명', 'c3']);
+    rows.push(['식비', Y(51500*4.5), '어른 7명 6,500엔 · 아이 2명 3,000엔/일 × 4.5일', 'c4']);
+    if($('dinner').checked) rows.push(['칠순 디너', Y(89000), '미야자키규 회석 9명 + 개별실료(추정)', 'c4']);
+    rows.push(['관광 · 온천 · 입장', Y(52000), '선멧세 · 전세탕 · 온천 · 동물원 · 대리운전 등', 'c5']);
+    rows.push(['보험 · eSIM', 250000, '보험 9명 + 어른 eSIM 6개', 'c6']);
+    if($('party').checked) rows.push(['칠순 이벤트', 250000, '현수막 · 풍선 · 티셔츠 · 케이크 · 꽃', 'c6']);
+    const tot = rows.reduce((s,r) => s + r[1], 0);
+    $('tot').textContent = '약 ' + man(tot) + '원';
+    $('per').textContent = '9명 1인 평균 약 ' + man(tot/9) + '원 · 4박 5일';
+    $('kpiTot').textContent = '약 ' + man(rows.filter(r => !r[4]).reduce((s,r)=>s+r[1],0)) + '원';
+    $('brk').innerHTML = rows.map(r => `<tr><td>${r[0]}<small>${r[2]}</small></td><td class="n">${man1(r[1])}</td></tr>`).join('')
+      + `<tr class="sum"><td>합계</td><td class="n">${man1(tot)}</td></tr>`;
+    const g = {}; rows.forEach(r => { g[r[3]] = (g[r[3]]||0) + r[1]; });
+    const nm = {c1:'항공', c2:'숙박', c3:'교통', c4:'식비', c5:'관광', c6:'보험 · 이벤트'};
+    $('cbar').innerHTML = Object.keys(g).map(c => `<i class="${c}" style="width:${(g[c]/tot*100).toFixed(1)}%" title="${nm[c]} ${man1(g[c])}"></i>`).join('');
+    $('cleg').innerHTML = Object.keys(g).map(c => `<span><i class="${c}"></i>${nm[c]} ${Math.round(g[c]/tot*100)}%</span>`).join('');
+    const mode = $('splitMode').value;
+    let s;
+    if(mode === 'two') s = [['부모님', 0, '초대받으셨어요'], ['우리 집 (3명)', tot/2, '절반'], ['여동생네 (4명)', tot/2, '절반']];
+    else if(mode === 'head') s = [['부모님 (2명)', tot*2/9, '인원 2/9'], ['우리 집 (3명)', tot*3/9, '인원 3/9'], ['여동생네 (4명)', tot*4/9, '인원 4/9']];
+    else s = [['부모님', tot/3, '1/3'], ['우리 집', tot/3, '1/3'], ['여동생네', tot/3, '1/3']];
+    $('split').innerHTML = s.map(x => `<div><span>${x[0]}</span><b class="num">${x[1] ? man(x[1])+'원' : '0원 🎉'}</b><span>${x[2]}</span></div>`).join('');
+    $('note').textContent = '쇼핑 · 기념품 제외. ' + (air ? '' : '항공권은 금액을 넣으면 합쳐져요. ') + '식비 · 교통 · 관광은 추정 단가, 숙박은 예약 금액(시가이아는 추정)이에요.';
+    showStay($('stay').value);
+  }
+  ['stay','car','air','fx','splitMode','dinner','party'].forEach(id => { $(id).addEventListener('input', calc); $(id).addEventListener('change', calc); });
+  $('calcForm').addEventListener('submit', e => e.preventDefault());
+  let v0 = 'A'; try{ const s = localStorage.getItem('chilsun-stay'); if(s && STAY[s]) v0 = s; }catch(e){}
+  $('stay').value = v0; calc();
+
+  const boxes = [...document.querySelectorAll('#todo input[type=checkbox]')];
+  const KEY = 'chilsun-todo-v1'; let saved = {};
+  try{ saved = JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){}
+  boxes.forEach(b => { if(b.id in saved) b.checked = saved[b.id]; });
+  function upd(){
+    const n = boxes.filter(b => b.checked).length;
+    $('tpFill').style.width = (n/boxes.length*100) + '%';
+    $('tpText').textContent = n + ' / ' + boxes.length;
+  }
+  boxes.forEach(b => b.addEventListener('change', () => { saved[b.id] = b.checked; try{ localStorage.setItem(KEY, JSON.stringify(saved)); }catch(e){} upd(); }));
+  upd();
+})();
+</script>
+</body>
+</html>
